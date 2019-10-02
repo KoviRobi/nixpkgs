@@ -22,8 +22,7 @@ mkDerivation rec {
 
   sourceRoot = "source/mandelbulber2";
 
-  qmakeFlags = [ "DEFINES+=SHARED_DIR=\\\\\\\"\${out}/share/mandelbulber2\\\\\\\""
-                 "DEFINES+=SHARED_DOC_DIR=\\\\\\\"\${out}/share/doc/mandelbulber2\\\\\\\""
+  qmakeFlags = [ "DEFINES+=SHARED_PATH=${placeholder ''out''}"
                  (if opencl
                   then "qmake/mandelbulber-opencl.pro"
                   else "qmake/mandelbulber.pro")
