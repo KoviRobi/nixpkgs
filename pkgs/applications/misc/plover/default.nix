@@ -44,5 +44,7 @@
 
     checkInputs           = [ pytest mock ];
     propagatedBuildInputs = [ Babel pyqt5 xlib pyserial appdirs wcwidth setuptools ];
+
+    postFixup = "wrapQtApp $out/bin/plover";
   };
 }
