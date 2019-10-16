@@ -336,6 +336,8 @@ let
       pcre = ocaml_pcre;
     };
 
+    jupyter = callPackage ../development/ocaml-modules/jupyter { lwt = lwt4; };
+
     js_of_ocaml =
     if lib.versionOlder "4.02" ocaml.version
     then callPackage ../development/tools/ocaml/js_of_ocaml/3.0.nix { }
