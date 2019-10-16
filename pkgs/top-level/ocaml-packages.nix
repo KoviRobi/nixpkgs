@@ -24,6 +24,8 @@ let
 
     apron = callPackage ../development/ocaml-modules/apron { };
 
+    archimedes = callPackage ../development/ocaml-modules/archimedes { };
+
     asn1-combinators = callPackage ../development/ocaml-modules/asn1-combinators { };
 
     astring = callPackage ../development/ocaml-modules/astring { };
