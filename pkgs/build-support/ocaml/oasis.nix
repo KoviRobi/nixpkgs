@@ -23,7 +23,7 @@ stdenv.mkDerivation (args // {
   buildPhase = ''
     runHook preBuild
     oasis setup
-    ocaml setup.ml -configure
+    ocaml setup.ml -configure --enable-tests
     ocaml setup.ml -build
     runHook postBuild
   '';

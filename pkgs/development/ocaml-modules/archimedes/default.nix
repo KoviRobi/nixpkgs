@@ -13,6 +13,8 @@ buildOasisPackage rec {
 
   propagatedBuildInputs = [ cairo2 ];
 
+  doCheck = true;
+
   meta = {
     description = "OCaml 2D plotting library";
     longDescription = ''
