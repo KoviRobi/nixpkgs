@@ -22,11 +22,10 @@ mkDerivation rec {
 
   sourceRoot = "source/mandelbulber2";
 
-  qmakeFlags = [ "DEFINES+=SHARED_PATH=${placeholder ''out''}"
+  qmakeFlags = [ "SHARED_PATH=${placeholder ''out''}"
                  (if opencl
                   then "qmake/mandelbulber-opencl.pro"
-                  else "qmake/mandelbulber.pro")
-                  ];
+                  else "qmake/mandelbulber.pro") ];
 
   postFixup = ''
     for f in \
