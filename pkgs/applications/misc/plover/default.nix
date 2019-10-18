@@ -1,4 +1,5 @@
-{ stdenv, fetchurl, python27Packages, python36Packages, wmctrl }:
+{ stdenv, fetchurl, python27Packages, python36Packages, wmctrl,
+  qtbase, mkDerivationWith }:
 
 {
   stable = with python27Packages; buildPythonPackage rec {
@@ -23,7 +24,7 @@
     ];
   };
 
-  dev = with python36Packages; buildPythonPackage rec {
+  dev = with python36Packages; mkDerivationWith buildPythonPackage rec {
     pname = "plover";
     version = "4.0.0.dev8";
 
@@ -45,6 +46,7 @@
     checkInputs           = [ pytest mock ];
     propagatedBuildInputs = [ Babel pyqt5 xlib pyserial appdirs wcwidth setuptools ];
 
+    dontWrapQtApps = true;
     postFixup = "wrapQtApp $out/bin/plover";
   };
 }
