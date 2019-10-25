@@ -16,6 +16,9 @@ mkDerivation rec {
     sha256 = "10kq30mxryq78kgsrqwpmws4knz7yfzhdq4zhl28rrz2k1bydgij";
   };
 
+  patches = [ ./0001-use-SHARED_DIR.patch ];
+  patchFlags = [ "-p2" ]; # Because of sourceRoot
+
   nativeBuildInputs = [ qmake qttools ];
   buildInputs = [ qtbase qtmultimedia libpng gsl libsndfile lzo ] ++
     lib.optionals opencl [ opencl-clhpp ocl-icd ];
@@ -26,19 +29,6 @@ mkDerivation rec {
                  (if opencl
                   then "qmake/mandelbulber-opencl.pro"
                   else "qmake/mandelbulber.pro") ];
-
-  postFixup = ''
-    for f in \
-        "$out/share/mandelbulber2/examples/gradients - reflectance and transparency.fract" \
-        "$out/share/mandelbulber2/examples/gradients - specular highlights.fract" \
-        "$out/share/mandelbulber2/examples/transparency reflectance roughness textures.fract" \
-        "$out/share/mandelbulber2/examples/Sebastian Jennen collection - license Creative Commons  (CC-BY 4.0)/aexion blue-sky-two-suns.fract" \
-        "$out/share/mandelbulber2/examples/Krzysztof Marczak collection - license Creative Commons (CC-BY 4.0)/Construct by Ectoplaz 2.fract" \
-        "$out/share/mandelbulber2/data/mandelbulber_1.21_defaults.fract" \
-        "$out/share/doc/mandelbulber2/NEWS"; do
-      substituteInPlace "$f" --replace "/usr" "$out"
-    done
-  '';
 
   meta = with lib; {
     description = "A 3D fractal rendering engine";

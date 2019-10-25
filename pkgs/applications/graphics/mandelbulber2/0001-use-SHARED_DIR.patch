@@ -1,0 +1,129 @@
+From d6e04de7c93eb1d369e2f4c32e1b7a6dc2109b88 Mon Sep 17 00:00:00 2001
+From: Krzysztof Marczak <buddhi1980@gmail.com>
+Date: Fri, 25 Oct 2019 23:04:59 +0200
+Subject: [PATCH] Merge pull request #731 from
+ KoviRobi/runtime-examples-SHARED_DIR
+
+At runtime replace $SHARED_DIR in paths (via FilePathHelper)
+
+diff --git a/mandelbulber2/deploy/share/mandelbulber2/data/mandelbulber_1.21_defaults.fract b/mandelbulber2/deploy/share/mandelbulber2/data/mandelbulber_1.21_defaults.fract
+index 7d6122c4..43cc001d 100644
+--- a/mandelbulber2/deploy/share/mandelbulber2/data/mandelbulber_1.21_defaults.fract
++++ b/mandelbulber2/deploy/share/mandelbulber2/data/mandelbulber_1.21_defaults.fract
+@@ -412,9 +412,9 @@ fake_lights_max_iter 2;
+ frame_no 0;
+ tile_no 0;
+ file_destination images/image;
+-file_background /usr/share/mandelbulber/textures/background.jpg;
+-file_envmap /usr/share/mandelbulber/textures/envmap.jpg;
+-file_lightmap /usr/share/mandelbulber/textures/lightmap.jpg;
++file_background $SHARED_DIR/textures/background.jpg;
++file_envmap $SHARED_DIR/textures/envmap.jpg;
++file_lightmap $SHARED_DIR/textures/lightmap.jpg;
+ file_animation_path paths/path.txt;
+ file_keyframes keyframes/keyframe;
+ palette 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ;
+diff --git a/mandelbulber2/deploy/share/mandelbulber2/examples/Krzysztof Marczak collection - license Creative Commons (CC-BY 4.0)/Construct by Ectoplaz 2.fract b/mandelbulber2/deploy/share/mandelbulber2/examples/Krzysztof Marczak collection - license Creative Commons (CC-BY 4.0)/Construct by Ectoplaz 2.fract
+index 7fe92c79..fb252fe2 100644
+--- a/mandelbulber2/deploy/share/mandelbulber2/examples/Krzysztof Marczak collection - license Creative Commons (CC-BY 4.0)/Construct by Ectoplaz 2.fract	
++++ b/mandelbulber2/deploy/share/mandelbulber2/examples/Krzysztof Marczak collection - license Creative Commons (CC-BY 4.0)/Construct by Ectoplaz 2.fract	
+@@ -27,7 +27,7 @@ DE_factor 0,78125;
+ DE_thresh 1;
+ delta_DE_function 0;
+ DOF_focus 1,479108388168207e-14;
+-file_lightmap /usr/share/mandelbulber2/textures/lightmap2.jpg;
++file_lightmap $SHARED_DIR/textures/lightmap2.jpg;
+ flight_last_to_render 0;
+ fog_color_1 0000 0000 0000;
+ formula_1 10;
+diff --git a/mandelbulber2/deploy/share/mandelbulber2/examples/Robert Pancoast collection - license Creative Commons (CC-BY 4.0)/icoastahedron.fract b/mandelbulber2/deploy/share/mandelbulber2/examples/Robert Pancoast collection - license Creative Commons (CC-BY 4.0)/icoastahedron.fract
+index 50edeaf5..67b4d93c 100644
+--- a/mandelbulber2/deploy/share/mandelbulber2/examples/Robert Pancoast collection - license Creative Commons (CC-BY 4.0)/icoastahedron.fract	
++++ b/mandelbulber2/deploy/share/mandelbulber2/examples/Robert Pancoast collection - license Creative Commons (CC-BY 4.0)/icoastahedron.fract	
+@@ -14,8 +14,8 @@ animsound_midfreq_main_mat1_coloring_palette_offset 23;
+ animsound_multfactor_main_mat1_coloring_palette_offset 2;
+ animsound_smoothfilter_main_camera_top_z true;
+ animsound_smoothstrength_main_camera_top_z 2;
+-animsound_soundfile_main_camera_top_z D:\GIT\mandelbulber2\mandelbulber2\deploy\share\mandelbulber2\sounds\Musopen_-_In_the_Hall_Of_The_Mountain_King.ogg;
+-animsound_soundfile_main_mat1_coloring_palette_offset D:\GIT\mandelbulber2\mandelbulber2\deploy\share\mandelbulber2\sounds\Musopen_-_In_the_Hall_Of_The_Mountain_King.ogg;
++animsound_soundfile_main_camera_top_z $SHARED_DIR/sounds/Musopen_-_In_the_Hall_Of_The_Mountain_King.ogg;
++animsound_soundfile_main_mat1_coloring_palette_offset $SHARED_DIR/sounds/Musopen_-_In_the_Hall_Of_The_Mountain_King.ogg;
+ background_color_1 0000 0000 0000;
+ background_color_2 0000 0000 0000;
+ background_color_3 0000 2700 0100;
+diff --git a/mandelbulber2/deploy/share/mandelbulber2/examples/Sebastian Jennen collection - license Creative Commons  (CC-BY 4.0)/aexion blue-sky-two-suns.fract b/mandelbulber2/deploy/share/mandelbulber2/examples/Sebastian Jennen collection - license Creative Commons  (CC-BY 4.0)/aexion blue-sky-two-suns.fract
+index 9cfedfeb..664f3452 100644
+--- a/mandelbulber2/deploy/share/mandelbulber2/examples/Sebastian Jennen collection - license Creative Commons  (CC-BY 4.0)/aexion blue-sky-two-suns.fract	
++++ b/mandelbulber2/deploy/share/mandelbulber2/examples/Sebastian Jennen collection - license Creative Commons  (CC-BY 4.0)/aexion blue-sky-two-suns.fract	
+@@ -30,7 +30,7 @@ delta_DE_function 2;
+ DOF_enabled true;
+ DOF_focus 0,1373683363199234;
+ DOF_radius 0,5;
+-file_background /usr/share/mandelbulber2/textures/envmap6.jpg;
++file_background $SHARED_DIR/textures/envmap6.jpg;
+ flight_last_to_render 0;
+ fog_color_1 a700 8f00 5f00;
+ fog_color_2 9900 9100 7b00;
+diff --git a/mandelbulber2/deploy/share/mandelbulber2/examples/gradients - reflectance and transparency.fract b/mandelbulber2/deploy/share/mandelbulber2/examples/gradients - reflectance and transparency.fract
+index dd06ca86..8c2429b4 100644
+--- a/mandelbulber2/deploy/share/mandelbulber2/examples/gradients - reflectance and transparency.fract	
++++ b/mandelbulber2/deploy/share/mandelbulber2/examples/gradients - reflectance and transparency.fract	
+@@ -11,7 +11,7 @@ camera_rotation 7,114098477863823 -37,23009990420512 0;
+ camera_top -0,0749287839798162 0,6003597515777113 0,7962121865538451;
+ detail_level 0,25;
+ DOF_monte_carlo true;
+-file_background /usr/share/mandelbulber2/textures/background3.jpg;
++file_background $SHARED_DIR/textures/background3.jpg;
+ flight_last_to_render 99999;
+ formula_1 66;
+ image_height 720;
+diff --git a/mandelbulber2/deploy/share/mandelbulber2/examples/gradients - specular highlights.fract b/mandelbulber2/deploy/share/mandelbulber2/examples/gradients - specular highlights.fract
+index b159ced5..f1aaf179 100644
+--- a/mandelbulber2/deploy/share/mandelbulber2/examples/gradients - specular highlights.fract	
++++ b/mandelbulber2/deploy/share/mandelbulber2/examples/gradients - specular highlights.fract	
+@@ -9,7 +9,7 @@ camera 0,7930633706235924 -1,949919164547048 0,390739465643563;
+ camera_distance_to_target 1,382875154922035;
+ camera_rotation 24,76357778549804 -17,63822567570686 0;
+ camera_top -0,1269215170725015 0,2751425408253233 0,9529887253961612;
+-file_background /usr/share/mandelbulber2/textures/background3.jpg;
++file_background $SHARED_DIR/textures/background3.jpg;
+ flight_last_to_render 99999;
+ formula_1 113;
+ image_height 1080;
+diff --git a/mandelbulber2/deploy/share/mandelbulber2/examples/transparency reflectance roughness textures.fract b/mandelbulber2/deploy/share/mandelbulber2/examples/transparency reflectance roughness textures.fract
+index 830bf68d..c2477934 100644
+--- a/mandelbulber2/deploy/share/mandelbulber2/examples/transparency reflectance roughness textures.fract	
++++ b/mandelbulber2/deploy/share/mandelbulber2/examples/transparency reflectance roughness textures.fract	
+@@ -11,7 +11,7 @@ camera_rotation 7,114098477863823 -37,23009990420512 0;
+ camera_top -0,0749287839798162 0,6003597515777113 0,7962121865538451;
+ detail_level 0,25;
+ DOF_monte_carlo true;
+-file_background /usr/share/mandelbulber2/textures/background3.jpg;
++file_background $SHARED_DIR/textures/background3.jpg;
+ flight_last_to_render 99999;
+ formula_1 66;
+ image_height 720;
+diff --git a/mandelbulber2/src/files.cpp b/mandelbulber2/src/files.cpp
+index bdab0413..fba9d502 100644
+--- a/mandelbulber2/src/files.cpp
++++ b/mandelbulber2/src/files.cpp
+@@ -437,12 +437,16 @@ bool FileExists(const QString &path)
+ 
+ QString FilePathHelper(const QString &path, const QStringList &pathList)
+ {
+-	// QString newPath;
++	// Prefer $SHARED_DIR to a file in a directory called "$SHARED_DIR", so that
++	// examples don't depend on the launch directory
++	// For a relative path starting with "$SHARED_DIR", use "./$SHARED_DIR"
++	QString newPath = path;
++	newPath.replace(QRegExp("^\\$SHARED_DIR"), systemData.sharedDir);
+ 
+ 	// original file was found
+-	if (FileExists(path)) return path;
++	if (FileExists(newPath)) return newPath;
+ 
+-	WriteLogCout("File " + path + " not found. Looking for the file in alternate locations\n", 2);
++	WriteLogCout("File " + newPath + " not found. Looking for the file in alternate locations\n", 2);
+ 
+ 	foreach (QString alternatePath, pathList)
+ 	{
