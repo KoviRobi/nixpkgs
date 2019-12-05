@@ -7,17 +7,14 @@ assert opencl -> ocl-icd != null;
 
 mkDerivation rec {
   pname = "mandelbulber2";
-  version = "2.19";
+  version = "2.20";
 
   src = fetchFromGitHub {
     owner = "buddhi1980";
     repo = "mandelbulber2";
     rev = version;
-    sha256 = "10kq30mxryq78kgsrqwpmws4knz7yfzhdq4zhl28rrz2k1bydgij";
+    sha256 = "043dks9fimhradyhdzqdc6lb9z0x9lkj3szj10751g424lppp207";
   };
-
-  patches = [ ./0001-use-SHARED_DIR.patch ];
-  patchFlags = [ "-p2" ]; # Because of sourceRoot
 
   nativeBuildInputs = [ qmake qttools ];
   buildInputs = [ qtbase qtmultimedia libpng gsl libsndfile lzo ] ++
