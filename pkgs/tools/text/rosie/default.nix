@@ -12,7 +12,7 @@
 }:
 
 stdenv.mkDerivation rec {
-  name = "rosie";
+  pname = "rosie";
   version = "1.2.1";
   src = fetchFromGitLab {
     owner = "rosie-pattern-language";
