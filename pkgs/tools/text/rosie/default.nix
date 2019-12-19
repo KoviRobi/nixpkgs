@@ -61,13 +61,13 @@ stdenv.mkDerivation rec {
     })
   ];
 
-  postUnpack = 
+  postUnpack =
     (lib.concatMapStrings
       (submodule: ''
         rmdir ${src.name}/submodules/${submodule.name}
         cp --no-preserve=all -r ${submodule} ${src.name}/submodules/${submodule.name}
 
-      '') 
+      '')
       submodules) +
     ''
       touch ${src.name}/submodules/~~present~~
