@@ -80,6 +80,10 @@ stdenv.mkDerivation rec {
       --replace 'DESTDIR=/usr/local' "DESTDIR=$out"
   '';
 
+  postInstall = ''
+    rm $out/lib/rosie/build.log
+  '';
+
   buildInputs = [ libbsd readline ];
 
   meta = with lib; {
