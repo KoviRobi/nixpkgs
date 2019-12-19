@@ -82,6 +82,10 @@ stdenv.mkDerivation rec {
 
   postInstall = ''
     rm $out/lib/rosie/build.log
+    mkdir -p $out/share/emacs/site-lisp $out/share/vim $out/share/nvim
+    mv $out/lib/rosie/extra/extra/emacs/* $out/share/emacs/site-lisp/
+    mv $out/lib/rosie/extra/extra/vim $out/share/vim/site
+    ln -s $out/share/vim/site $out/share/nvim/site
   '';
 
   buildInputs = [ libbsd readline ];
