@@ -1,8 +1,6 @@
 { stdenv
 , lib
-, fetchFromGitLab
-, fetchFromGitHub
-#, fetchgit
+, fetchgit
 , libbsd
 # , lua
 # , cjson # lua cjson TODO: Using bundled?
@@ -14,62 +12,14 @@
 stdenv.mkDerivation rec {
   pname = "rosie";
   version = "1.2.1";
-  src = fetchFromGitLab {
-    owner = "rosie-pattern-language";
-    repo = "rosie";
-  #src = fetchgit {
-  #  url = https://gitlab.com/rosie-pattern-language/rosie;
+  src = fetchgit {
+    url = https://gitlab.com/rosie-pattern-language/rosie;
     rev = "v${version}";
-    sha256 = "0hzicg5vinzq8abzq163c1xzlwkp3hw6fqrla3v0252g5vdplgaf";
+    sha256 = "1fgp48q9xn8fc4zbpyc2issmmc6lrdsxpa93nk3xaj0qcj6kgz78";
+    fetchSubmodules = true;
   };
 
-  submodules = [
-    (fetchFromGitHub {
-      owner = "mpeterv";
-      repo = "argparse";
-      name = "argparse";
-      rev = "412e6aca";
-      sha256 = "0b4v0n1g0qh7jdkpq1ai8yq1di3l4kdpdb38hmkqhlgp8ip8j5p5";
-    })
-    (fetchFromGitLab {
-      owner = "rosie-pattern-language";
-      repo = "lua";
-      name = "lua";
-      rev = "afa03c03";
-      sha256 = "1plj8m1gyv643isa2xdrc9gy1ny6bn87klcnvqcc6skrw5ggr0ls";
-    })
-    (fetchFromGitLab {
-      owner = "rosie-pattern-language";
-      repo = "lua-cjson";
-      name = "lua-cjson";
-      rev = "114e2abd";
-      sha256 = "0j25nbyi8nlv2x5fa8xdwlw7s6qh8dx0x70i36smigxnn0n12m0h";
-    })
-    (fetchFromGitLab {
-      owner = "rosie-pattern-language";
-      repo = "lua-modules";
-      name = "lua-modules";
-      rev = "183449bc";
-      sha256 = "0pf73dnxxcqjjipjsi787fgisydjxfp0n1g4vzk8iaj9lgvm13fz";
-    })
-    (fetchFromGitLab {
-      owner = "rosie-pattern-language";
-      repo = "lua-readline";
-      name = "lua-readline";
-      rev = "4aedcbdb";
-      sha256 = "1f2ysarigki27vw4b160b5v7c6pkq0b3k47vjz9gyhz8jcqv329q";
-    })
-  ];
-
-  postUnpack =
-    (lib.concatMapStrings
-      (submodule: ''
-        rmdir ${src.name}/submodules/${submodule.name}
-        cp --no-preserve=all -r ${submodule} ${src.name}/submodules/${submodule.name}
-
-      '')
-      submodules) +
-    ''
+  postUnpack = ''
       touch ${src.name}/submodules/~~present~~
     '';
 
