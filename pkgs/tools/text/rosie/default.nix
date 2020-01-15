@@ -11,11 +11,11 @@
 
 stdenv.mkDerivation rec {
   pname = "rosie";
-  version = "1.2.1";
+  version = "unstable-2020-01-11";
   src = fetchgit {
-    url = https://gitlab.com/rosie-pattern-language/rosie;
-    rev = "v${version}";
-    sha256 = "1fgp48q9xn8fc4zbpyc2issmmc6lrdsxpa93nk3xaj0qcj6kgz78";
+    url = "https://gitlab.com/rosie-pattern-language/rosie";
+    rev = "670e9027563609ba2ea31e14e2621a1302742795";
+    sha256 = "0jc512dbn62a1fniknhbp6q0xa1p7xi3hn5v60is8sy9jgi3afxv";
     fetchSubmodules = true;
   };
 
@@ -26,17 +26,16 @@ stdenv.mkDerivation rec {
   preConfigure = ''
     patchShebangs src/build_info.sh
     ln -s src submodules/lua/include
-    substituteInPlace Makefile \
-      --replace 'DESTDIR=/usr/local' "DESTDIR=$out"
   '';
 
   postInstall = ''
-    rm $out/lib/rosie/build.log
     mkdir -p $out/share/emacs/site-lisp $out/share/vim $out/share/nvim
     mv $out/lib/rosie/extra/extra/emacs/* $out/share/emacs/site-lisp/
     mv $out/lib/rosie/extra/extra/vim $out/share/vim/site
     ln -s $out/share/vim/site $out/share/nvim/site
   '';
+
+  makeFlags = [ "DESTDIR=${placeholder "out"}" ];
 
   buildInputs = [ libbsd readline ];
 
