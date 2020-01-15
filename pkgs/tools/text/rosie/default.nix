@@ -2,10 +2,6 @@
 , lib
 , fetchgit
 , libbsd
-# , lua
-# , cjson # lua cjson TODO: Using bundled?
-# , lua-readline TODO: add
-# , argparse # lua argparse
 , readline
 }:
 
@@ -19,6 +15,7 @@ stdenv.mkDerivation rec {
     fetchSubmodules = true;
   };
 
+  # The Makefile calls git to update submodules, unless this file exists
   postUnpack = ''
       touch ${src.name}/submodules/~~present~~
     '';
