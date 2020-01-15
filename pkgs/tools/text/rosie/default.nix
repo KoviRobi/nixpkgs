@@ -27,10 +27,10 @@ stdenv.mkDerivation rec {
   '';
 
   postInstall = ''
-    mkdir -p $out/share/emacs/site-lisp $out/share/vim $out/share/nvim
+    mkdir -p $out/share/emacs/site-lisp $out/share/vim-plugins $out/share/nvim
     mv $out/lib/rosie/extra/extra/emacs/* $out/share/emacs/site-lisp/
-    mv $out/lib/rosie/extra/extra/vim $out/share/vim/site
-    ln -s $out/share/vim/site $out/share/nvim/site
+    mv $out/lib/rosie/extra/extra/vim $out/share/vim-plugins/rosie
+    ln -s $out/share/vim-plugins/rosie $out/share/nvim/site
   '';
 
   makeFlags = [ "DESTDIR=${placeholder "out"}" ];
