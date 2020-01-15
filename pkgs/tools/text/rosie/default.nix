@@ -38,9 +38,8 @@ stdenv.mkDerivation rec {
   buildInputs = [ libbsd readline ];
 
   meta = with lib; {
-    website = https://rosie-lang.org;
+    homepage = https://rosie-lang.org;
     description = "Tools for searching using parsing expression grammars";
-    longDescription = "";
     license = licenses.mit;
     maintainers = with maintainers; [ kovirobi ];
   };
