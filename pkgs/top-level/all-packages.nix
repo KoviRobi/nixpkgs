@@ -6116,7 +6116,7 @@ in
 
   rnv = callPackage ../tools/text/xml/rnv { };
 
-  rosie = luaPackages.callPackage ../tools/text/rosie { };
+  rosie = callPackage ../tools/text/rosie { };
 
   rounded-mgenplus = callPackage ../data/fonts/rounded-mgenplus { };
 

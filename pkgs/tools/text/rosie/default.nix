@@ -15,13 +15,14 @@ stdenv.mkDerivation rec {
     fetchSubmodules = true;
   };
 
-  # The Makefile calls git to update submodules, unless this file exists
   postUnpack = ''
-      touch ${src.name}/submodules/~~present~~
-    '';
+    # The Makefile calls git to update submodules, unless this file exists
+    touch ${src.name}/submodules/~~present~~
+  '';
 
   preConfigure = ''
     patchShebangs src/build_info.sh
+    # Part of the same Makefile target which calls git to update submodules
     ln -s src submodules/lua/include
   '';
 
