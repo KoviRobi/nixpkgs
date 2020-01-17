@@ -42,5 +42,6 @@ stdenv.mkDerivation rec {
     description = "Tools for searching using parsing expression grammars";
     license = licenses.mit;
     maintainers = with maintainers; [ kovirobi ];
+    platforms = with platforms; linux ++ darwin;
   };
 }
