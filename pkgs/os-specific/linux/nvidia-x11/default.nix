@@ -1,11 +1,20 @@
-{ lib, callPackage, fetchpatch, fetchurl, stdenv }:
+{ lib, callPackage, fetchurl, stdenv, pkgsi686Linux }:
 
 let
 
+## -  generic = args: callPackage (import ./generic.nix args) { };
+## +  generic = args: let
+## +    imported = import ./generic.nix args;
+## +  in callPackage imported { lib32 = (pkgsi686Linux.callPackage imported {
+## +    libsOnly = true; kernel = null; }).out; };
 generic = args:
-if ((!lib.versionOlder args.version "391")
+  if ((!lib.versionOlder args.version "391")
     && stdenv.hostPlatform.system != "x86_64-linux") then null
-  else callPackage (import ./generic.nix args) { };
+  else let imported = import ./generic.nix args;
+  in callPackage imported {
+      lib32 = (pkgsi686Linux.callPackage imported {
+        libsOnly = true; kernel = null; }).out;
+    };
   kernel = callPackage # a hacky way of extracting parameters from callPackage
     ({ kernel, libsOnly ? false }: if libsOnly then { } else kernel) { };
 

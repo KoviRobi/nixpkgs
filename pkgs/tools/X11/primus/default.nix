@@ -11,15 +11,14 @@
 , runtimeShell
 , primusLib_i686 ? null
 , useNvidia ? true
+, nvidia_x11 ? null
 }:
 
 let
   # We override stdenv in case we need different ABI for libGL
-  primusLib_ = primusLib.override { inherit stdenv; };
-  primusLib_i686_ = primusLib_i686.override { stdenv = stdenv_i686; };
+  primus = primusLib.override { inherit stdenv; nvidia_x11 = if useNvidia then nvidia_x11 else  null; };
+  primus_i686 = primusLib_i686.override { stdenv = stdenv_i686; nvidia_x11 = if useNvidia then nvidia_x11 else null; };
 
-  primus = if useNvidia then primusLib_ else primusLib_.override { nvidia_x11 = null; };
-  primus_i686 = if useNvidia then primusLib_i686_ else primusLib_i686_.override { nvidia_x11 = null; };
   ldPath = lib.makeLibraryPath (lib.filter (x: x != null) (
     [ primus primus.glvnd ]
     ++ lib.optionals (primusLib_i686 != null) [ primus_i686 primus_i686.glvnd ]

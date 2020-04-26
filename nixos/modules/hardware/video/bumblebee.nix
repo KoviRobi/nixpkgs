@@ -11,12 +11,14 @@ let
   bumblebee = pkgs.bumblebee.override {
     inherit useNvidia;
     useDisplayDevice = cfg.connectDisplay;
+    nvidia_x11 = config.hardware.nvidia.package;
   };
 
   useBbswitch = cfg.pmMethod == "bbswitch" || cfg.pmMethod == "auto" && useNvidia;
 
-  primus = pkgs.primus.override {
+  primusPkg = pkgs.primus.override {
     inherit useNvidia;
+    nvidia_x11 = config.hardware.nvidia.package;
   };
 
 in
@@ -77,9 +79,9 @@ in
   config = mkIf cfg.enable {
     boot.blacklistedKernelModules = [ "nvidia-drm" "nvidia" "nouveau" ];
     boot.kernelModules = optional useBbswitch "bbswitch";
-    boot.extraModulePackages = optional useBbswitch kernel.bbswitch ++ optional useNvidia kernel.nvidia_x11.bin;
+    boot.extraModulePackages = optional useBbswitch kernel.bbswitch ++ optional useNvidia config.hardware.nvidia.package;
 
-    environment.systemPackages = [ bumblebee primus ];
+    environment.systemPackages = [ bumblebee primusPkg ];
 
     systemd.services.bumblebeed = {
       description = "Bumblebee Hybrid Graphics Switcher";

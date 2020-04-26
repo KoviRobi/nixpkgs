@@ -15,10 +15,11 @@
 
 { stdenv, callPackage, pkgs, pkgsi686Linux, fetchurl
 , kernel ? null, perl, nukeReferences
-, # Whether to build the libraries only (i.e. not the kernel module or
+  # Whether to build the libraries only (i.e. not the kernel module or
   # nvidia-settings).  Used to support 32-bit binaries on 64-bit
   # Linux.
-  libsOnly ? false
+, libsOnly ? false
+, lib32 ? null
 }:
 
 with stdenv.lib;
@@ -86,6 +87,8 @@ let
         withGtk3 = !preferGtk2;
       };
       persistenced = mapNullable (hash: callPackage (import ./persistenced.nix self hash) { }) persistencedSha256;
+    } // optionalAttrs (!i686bundled) {
+      inherit lib32;
     };
 
     meta = with stdenv.lib; {
