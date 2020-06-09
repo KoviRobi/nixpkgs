@@ -556,7 +556,7 @@ in {
     # Install all the user shells
     environment.systemPackages = systemShells;
 
-    environment.etc = (mapAttrs' (name: { packages, ... }: {
+    environment.etc = (mapAttrs' (attr-name: { name, packages, ... }: {
       name = "profiles/per-user/${name}";
       value.source = pkgs.buildEnv {
         name = "user-environment";
@@ -582,7 +582,7 @@ in {
         # root and users in the wheel group.
         assertion = !cfg.mutableUsers ->
           any id ((mapAttrsToList (name: cfg:
-            (name == "root"
+            (cfg.name == "root"
              || cfg.group == "wheel"
              || elem "wheel" cfg.extraGroups)
             &&
@@ -603,10 +603,10 @@ in {
         assertion = (user.hashedPassword != null)
                     -> (builtins.match ".*:.*" user.hashedPassword == null);
         message = ''
-          The password hash of user "${name}" contains a ":" character.
+          The password hash of user "${user.name}" contains a ":" character.
           This is invalid and would break the login system because the fields
           of /etc/shadow (file where hashes are stored) are colon-separated.
-          Please check the value of option `users.users."${name}".hashedPassword`.'';
+          Please check the value of option `users.users."${user.name}".hashedPassword`.'';
       }
     );
 
@@ -635,9 +635,9 @@ in {
             && user.hashedPassword != ""  # login without password
             && builtins.match mcf user.hashedPassword == null)
         then ''
-          The password hash of user "${name}" may be invalid. You must set a
+          The password hash of user "${user.name}" may be invalid. You must set a
           valid hash or the user will be locked out of their account. Please
-          check the value of option `users.users."${name}".hashedPassword`.''
+          check the value of option `users.users."${user.name}".hashedPassword`.''
         else null
       ));
 
