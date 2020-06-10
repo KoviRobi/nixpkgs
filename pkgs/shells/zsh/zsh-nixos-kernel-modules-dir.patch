@@ -1,0 +1,12 @@
+diff -uNr a/Completion/Linux/Command/_modutils b/Completion/Linux/Command/_modutils
+--- a/Completion/Linux/Command/_modutils	2019-08-17 22:14:27.000000000 +0100
++++ b/Completion/Linux/Command/_modutils	2020-06-10 13:14:03.600965264 +0100
+@@ -12,7 +12,7 @@
+ _modutils() {
+   local curcontext="$curcontext" expl state line modules modaliases ign args ret=1
+   local -A opt_args
+-  local -r modules_dir=/lib/modules
++  local -r modules_dir=/run/booted-system/kernel-modules/lib/modules
+
+   local update_policy
+   zstyle -s ":completion:*:*:$service:*" cache-policy update_policy
