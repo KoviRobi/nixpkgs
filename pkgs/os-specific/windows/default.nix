@@ -13,6 +13,8 @@ lib.makeScope newScope (self: with self; {
   mingwrt = callPackage ./mingwrt { };
   mingw_runtime = mingwrt;
 
+  gendef = callPackage ./mingw-w64/gendef.nix { };
+
   mingw_w64 = callPackage ./mingw-w64 {
     stdenv = crossLibcStdenv;
   };
