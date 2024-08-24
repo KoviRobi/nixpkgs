@@ -1,4 +1,4 @@
-{ lib, stdenv, fetchurl, cmake, recode, perl, rinutils, withOffensive ? false }:
+{ lib, stdenv, buildPackages, fetchurl, cmake, recode, perl, rinutils, withOffensive ? false }:
 
 stdenv.mkDerivation rec {
   pname = "fortune-mod";
@@ -11,7 +11,10 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-BpMhu01K46v1VJPQQ86gZTTck/Giwp6GaU2e2xOAoOM=";
   };
 
-  nativeBuildInputs = [ cmake perl rinutils ];
+  nativeBuildInputs = [ cmake perl rinutils ] ++
+    lib.optionals (stdenv.buildPlatform != stdenv.hostPlatform) [
+      buildPackages.fortune # for strfile
+    ];
 
   buildInputs = [ recode ];
 
