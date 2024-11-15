@@ -204,6 +204,10 @@ in {
        then latest
        else testing;
 
+    linux_default = packageAliases.linux_default.kernel;
+
+    linux_latest = packageAliases.linux_latest.kernel;
+
     # Using zenKernels like this due lqx&zen came from one source, but may have different base kernel version
     # https://github.com/NixOS/nixpkgs/pull/161773#discussion_r820134708
     zenKernels = callPackage ../os-specific/linux/kernel/zen-kernels.nix;
@@ -263,6 +267,7 @@ in {
     linux_5_15_hardened = hardenedKernelFor kernels.linux_5_15 { };
     linux_6_1_hardened = hardenedKernelFor kernels.linux_6_1 { };
     linux_6_6_hardened = hardenedKernelFor kernels.linux_6_6 { };
+    linux_6_11_hardened = hardenedKernelFor kernels.linux_6_11 { };
 
   } // lib.optionalAttrs config.allowAliases {
     linux_4_14 = throw "linux 4.14 was removed because it will reach its end of life within 23.11";
@@ -309,6 +314,8 @@ in {
     acpi_call = callPackage ../os-specific/linux/acpi-call {};
 
     akvcam = callPackage ../os-specific/linux/akvcam { };
+
+    amneziawg = callPackage ../os-specific/linux/amneziawg { };
 
     apfs = callPackage ../os-specific/linux/apfs { };
 
@@ -658,6 +665,7 @@ in {
     linux_5_15_hardened = recurseIntoAttrs (packagesFor kernels.linux_5_15_hardened);
     linux_6_1_hardened = recurseIntoAttrs (packagesFor kernels.linux_6_1_hardened);
     linux_6_6_hardened = recurseIntoAttrs (packagesFor kernels.linux_6_6_hardened);
+    linux_6_11_hardened = recurseIntoAttrs (packagesFor kernels.linux_6_11_hardened);
 
     linux_zen = recurseIntoAttrs (packagesFor kernels.linux_zen);
     linux_lqx = recurseIntoAttrs (packagesFor kernels.linux_lqx);
