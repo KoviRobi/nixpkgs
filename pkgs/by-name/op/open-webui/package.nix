@@ -81,6 +81,7 @@ python312.pkgs.buildPythonApplication rec {
     docx2txt
     duckduckgo-search
     einops
+    emoji # This dependency is missing in upstream's pyproject.toml
     extract-msg
     fake-useragent
     fastapi
@@ -91,9 +92,11 @@ python312.pkgs.buildPythonApplication rec {
     ftfy
     google-generativeai
     googleapis-common-protos
+    iso-639
     langchain
     langchain-chroma
     langchain-community
+    langdetect
     langfuse
     ldap3
     markdown
