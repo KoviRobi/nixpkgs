@@ -161,6 +161,8 @@ in
   };
 
   config = {
+    hardware.enableAllHardware = true;
+
     fileSystems = {
       "/boot/firmware" = {
         device = "/dev/disk/by-label/${config.sdImage.firmwarePartitionName}";

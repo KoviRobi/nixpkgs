@@ -1,4 +1,14 @@
-{ lib, stdenv, buildPackages, fetchurl, cmake, recode, perl, rinutils, withOffensive ? false }:
+{
+  lib,
+  stdenv,
+  buildPackages,
+  fetchurl,
+  cmake,
+  recode,
+  perl,
+  rinutils,
+  withOffensive ? false,
+}:
 
 stdenv.mkDerivation rec {
   pname = "fortune-mod";
@@ -11,8 +21,13 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-BpMhu01K46v1VJPQQ86gZTTck/Giwp6GaU2e2xOAoOM=";
   };
 
-  nativeBuildInputs = [ cmake perl rinutils ] ++
-    lib.optionals (stdenv.buildPlatform != stdenv.hostPlatform) [
+  nativeBuildInputs =
+    [
+      cmake
+      perl
+      rinutils
+    ]
+    ++ lib.optionals (stdenv.buildPlatform != stdenv.hostPlatform) [
       buildPackages.fortune # for strfile
     ];
 
@@ -22,22 +37,24 @@ stdenv.mkDerivation rec {
     "-DLOCALDIR=${placeholder "out"}/share/fortunes"
   ] ++ lib.optional (!withOffensive) "-DNO_OFFENSIVE=true";
 
-  patches = [ (builtins.toFile "not-a-game.patch" ''
-    diff --git a/CMakeLists.txt b/CMakeLists.txt
-    index 865e855..5a59370 100644
-    --- a/CMakeLists.txt
-    +++ b/CMakeLists.txt
-    @@ -154,7 +154,7 @@ ENDMACRO()
-     my_exe(
-         "fortune"
-         "fortune/fortune.c"
-    -    "games"
-    +    "bin"
-     )
+  patches = [
+    (builtins.toFile "not-a-game.patch" ''
+      diff --git a/CMakeLists.txt b/CMakeLists.txt
+      index 865e855..5a59370 100644
+      --- a/CMakeLists.txt
+      +++ b/CMakeLists.txt
+      @@ -154,7 +154,7 @@ ENDMACRO()
+       my_exe(
+           "fortune"
+           "fortune/fortune.c"
+      -    "games"
+      +    "bin"
+       )
 
-     my_exe(
-    --
-  '') ];
+       my_exe(
+      --
+    '')
+  ];
 
   postFixup = lib.optionalString (!withOffensive) ''
     rm $out/share/games/fortunes/men-women*

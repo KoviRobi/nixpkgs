@@ -6,14 +6,14 @@
 
 python3.pkgs.buildPythonApplication rec {
   pname = "checkov";
-  version = "3.2.328";
+  version = "3.2.336";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "bridgecrewio";
     repo = "checkov";
     rev = "refs/tags/${version}";
-    hash = "sha256-1eQvzrYuScOLDb5ZoXN4EyUzYiOZ3LysDSQRdXBL2Iw=";
+    hash = "sha256-T++J0kRFXV5v7+CCSy5ho5340kYF7mp9Cru8StXx+UQ=";
   };
 
   patches = [ ./flake8-compat-5.x.patch ];
@@ -92,6 +92,7 @@ python3.pkgs.buildPythonApplication rec {
 
   nativeCheckInputs = with python3.pkgs; [
     aioresponses
+    distutils
     mock
     pytest-asyncio
     pytest-mock
