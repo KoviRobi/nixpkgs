@@ -52,7 +52,7 @@ stdenv.mkDerivation (finalAttrs: {
   src = fetchFromGitHub {
     owner = "radare";
     repo = "radare2";
-    rev = "refs/tags/${finalAttrs.version}";
+    tag = finalAttrs.version;
     hash = "sha256-t/BMsYqNLMAlBBYm6JCDkFYL5YwJBwmEaaIY4KFYxY4=";
   };
 
@@ -78,6 +78,7 @@ stdenv.mkDerivation (finalAttrs: {
     "-Duse_sys_openssl=true"
     "-Duse_sys_xxhash=true"
     "-Duse_sys_zip=true"
+    "-Duse_sys_zlib=true"
   ];
 
   enableParallelBuilding = true;
