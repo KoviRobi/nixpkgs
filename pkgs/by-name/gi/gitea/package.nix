@@ -1,4 +1,5 @@
 {
+  stdenv,
   lib,
   buildGoModule,
   fetchFromGitHub,
@@ -11,9 +12,13 @@
   gzip,
   openssh,
   sqliteSupport ? true,
+  pamSupport ? stdenv.hostPlatform.isLinux,
+  pam,
   nixosTests,
   buildNpmPackage,
 }:
+
+assert pamSupport -> pam != null;
 
 let
   frontend = buildNpmPackage {
@@ -68,10 +73,14 @@ buildGoModule rec {
 
   nativeBuildInputs = [ makeWrapper ];
 
-  tags = lib.optionals sqliteSupport [
-    "sqlite"
-    "sqlite_unlock_notify"
-  ];
+  buildInputs = lib.optional pamSupport pam;
+
+  tags =
+    lib.optionals sqliteSupport [
+      "sqlite"
+      "sqlite_unlock_notify"
+    ]
+    ++ lib.optional pamSupport "pam";
 
   ldflags = [
     "-s"
