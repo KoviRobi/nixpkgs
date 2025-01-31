@@ -7,6 +7,7 @@
   recode,
   perl,
   rinutils,
+  fortune,
   withOffensive ? false,
 }:
 
@@ -27,8 +28,9 @@ stdenv.mkDerivation rec {
       perl
       rinutils
     ]
-    ++ lib.optionals (stdenv.buildPlatform != stdenv.hostPlatform) [
-      buildPackages.fortune # for strfile
+    ++ lib.optionals (!stdenv.buildPlatform.canExecute stdenv.hostPlatform) [
+      # "strfile" must be in PATH for cross-compiling builds.
+      fortune
     ];
 
   buildInputs = [ recode ];
