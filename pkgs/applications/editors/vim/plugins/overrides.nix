@@ -17,7 +17,6 @@
   mkYarnModules,
   python3,
   # Misc dependencies
-  arrow-cpp,
   coc-clangd,
   coc-css,
   coc-diagnostic,
@@ -27,7 +26,6 @@
   dasht,
   deno,
   direnv,
-  duckdb,
   fzf,
   gawk,
   himalaya,
@@ -1101,10 +1099,6 @@ in
     };
   };
 
-  feline-nvim = super.feline-nvim.overrideAttrs {
-    nvimSkipModule = "minimal_init";
-  };
-
   flash-nvim = super.flash-nvim.overrideAttrs {
     # Docs require lazyvim
     # dependencies = with self; [ lazy-nvim ];
@@ -1345,20 +1339,21 @@ in
     ];
   };
 
+  helpview-nvim = super.helpview-nvim.overrideAttrs {
+    nvimSkipModule = "definitions.__vimdoc";
+  };
+
   hex-nvim = super.hex-nvim.overrideAttrs {
     runtimeDeps = [ xxd ];
   };
 
   himalaya-vim = super.himalaya-vim.overrideAttrs {
     buildInputs = [ himalaya ];
-    src = fetchFromSourcehut {
-      owner = "~soywod";
-      repo = "himalaya-vim";
-      rev = "v${himalaya.version}";
-      sha256 = "W+91hnNeS6WkDiR9r1s7xPTK9JlCWiVkI/nXVYbepY0=";
-    };
     # vim plugin with optional telescope lua module
-    nvimSkipModule = "himalaya.folder.pickers.telescope";
+    nvimSkipModule = [
+      "himalaya.folder.pickers.fzflua"
+      "himalaya.folder.pickers.telescope"
+    ];
   };
 
   hover-nvim = super.hover-nvim.overrideAttrs {
@@ -1464,6 +1459,7 @@ in
       "lazyvim.plugins.extras.ai.tabnine"
       "lazyvim.plugins.extras.coding.blink"
       "lazyvim.plugins.extras.coding.luasnip"
+      "lazyvim.plugins.extras.coding.neogen"
       "lazyvim.plugins.extras.editor.fzf"
       "lazyvim.plugins.extras.editor.snacks_picker"
       "lazyvim.plugins.extras.editor.telescope"
@@ -1759,6 +1755,13 @@ in
 
   mind-nvim = super.mind-nvim.overrideAttrs {
     dependencies = [ self.plenary-nvim ];
+  };
+
+  mini-nvim = super.mini-nvim.overrideAttrs {
+    # reduce closure size
+    postInstall = ''
+      rm -rf $out/{Makefile,benchmarks,readmes,tests,scripts}
+    '';
   };
 
   git-conflict-nvim = super.git-conflict-nvim.overrideAttrs {
@@ -2396,40 +2399,6 @@ in
     passthru.python3Dependencies = [ python3.pkgs.mwclient ];
   };
 
-  nvim-dbee = super.nvim-dbee.overrideAttrs (
-    oa:
-    let
-      dbee-go = buildGoModule {
-        name = "nvim-dbee";
-        src = "${oa.src}/dbee";
-        vendorHash = "sha256-U/3WZJ/+Bm0ghjeNUILsnlZnjIwk3ySaX3Rd4L9Z62A=";
-        buildInputs = [
-          arrow-cpp
-          duckdb
-        ];
-      };
-    in
-    {
-      dependencies = [ self.nui-nvim ];
-
-      # nvim-dbee looks for the go binary in paths returned bu M.dir() and M.bin() defined in lua/dbee/install/init.lua
-      postPatch = ''
-        substituteInPlace lua/dbee/install/init.lua \
-          --replace-fail 'return vim.fn.stdpath("data") .. "/dbee/bin"' 'return "${dbee-go}/bin"'
-      '';
-
-      preFixup = ''
-        mkdir $target/bin
-        ln -s ${dbee-go}/bin/dbee $target/bin/dbee
-      '';
-
-      meta.platforms = lib.platforms.linux;
-    }
-  );
-
-  nvim-impairative = super.nvim-impairative.overrideAttrs {
-  };
-
   nvim-navic = super.nvim-navic.overrideAttrs {
     dependencies = [ self.nvim-lspconfig ];
   };
@@ -2896,18 +2865,22 @@ in
       "snacks.debug"
       "snacks.dim"
       "snacks.git"
+      "snacks.image.image"
+      "snacks.image.init"
+      "snacks.image.placement"
       "snacks.indent"
       "snacks.input"
       "snacks.lazygit"
       "snacks.notifier"
+      "snacks.picker.actions"
+      "snacks.picker.config.highlights"
+      "snacks.picker.core.list"
       "snacks.scratch"
       "snacks.scroll"
       "snacks.terminal"
       "snacks.win"
       "snacks.words"
       "snacks.zen"
-      "snacks.picker.config.highlights"
-      "snacks.picker.actions"
       # Optional trouble integration
       "trouble.sources.profiler"
       # TODO: Plugin requires libsqlite available, create a test for it
@@ -3940,6 +3913,7 @@ in
     nvimSkipModule = [
       "zk.pickers.fzf_lua"
       "zk.pickers.minipick"
+      "zk.pickers.snacks_picker"
       "zk.pickers.telescope"
     ];
   };
@@ -4034,18 +4008,20 @@ in
       "lush-nvim"
       "lz-n"
       "lze"
+      "lzextras"
       "lzn-auto-require"
       "middleclass"
       "neorg"
       "neotest"
       "nui-nvim"
       "nvim-cmp"
+      "nvim-dbee"
       "nvim-nio"
+      "nvim-web-devicons"
       "orgmode"
       "papis-nvim"
       "rest-nvim"
       "rocks-config-nvim"
-      "rocks-nvim"
       "rtp-nvim"
       "telescope-manix"
       "telescope-nvim"
@@ -4058,3 +4034,20 @@ in
   in
   lib.genAttrs luarocksPackageNames toVimPackage
 )
+// {
+
+  rocks-nvim =
+    (neovimUtils.buildNeovimPlugin {
+      luaAttr = luaPackages.rocks-nvim;
+    }).overrideAttrs
+      (oa: {
+        passthru = oa.passthru // {
+          initLua = ''
+            vim.g.rocks_nvim = {
+              luarocks_binary = "${neovim-unwrapped.lua.pkgs.luarocks_bootstrap}/bin/luarocks"
+              }
+          '';
+        };
+
+      });
+}
