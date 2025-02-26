@@ -5,10 +5,9 @@
   versionCheckHook,
   autoPatchelfHook,
   makeWrapper,
-  tailwindcss_4,
 }:
 let
-  version = "4.0.6";
+  version = "4.0.8";
   inherit (stdenv.hostPlatform) system;
   throwSystem = throw "tailwindcss has not been packaged for ${system} yet.";
 
@@ -23,10 +22,10 @@ let
 
   hash =
     {
-      aarch64-darwin = "sha256-FopnfuGYBjjQkfPHdIWacpom9WsAVRwHPQ/14waWR7s=";
-      aarch64-linux = "sha256-y+9d53skmoSZPhbtk9vUkhKNzIE1A868Lnkw7Cot/PU=";
-      x86_64-darwin = "sha256-rFjaDtPjJO9W6G//7Uu5CJE+pB0sqLrMByC5pv4FA4E=";
-      x86_64-linux = "sha256-14EMXenpvPsKlnu5kebNu3MmfWwa7UYfAgEkh5EwVRM=";
+      aarch64-darwin = "sha256-3OsBB5LGJ7vFIFs+6hZO17ixYa27SQmRpCfYPWMU2rE=";
+      aarch64-linux = "sha256-4Ek3542HWUYWAZveyWe/Hhr/0BdxLjrvnXOTAaglCwE=";
+      x86_64-darwin = "sha256-Er7fG/GQt74A1GHXLNKqJEW2NbAFBPr6rLm8E10HPsc=";
+      x86_64-linux = "sha256-6mI2CWI8Eocn7G9eoTphk1cL+tR+rnKQ3VTXSVcBBPk=";
     }
     .${system} or throwSystem;
 in
@@ -71,7 +70,10 @@ stdenv.mkDerivation {
     homepage = "https://tailwindcss.com/blog/tailwindcss-v4";
     license = lib.licenses.mit;
     sourceProvenance = [ lib.sourceTypes.binaryNativeCode ];
-    maintainers = [ lib.maintainers.adamjhf ];
+    maintainers = with lib.maintainers; [
+      adamcstephens
+      adamjhf
+    ];
     mainProgram = "tailwindcss";
     platforms = lib.platforms.darwin ++ lib.platforms.linux;
   };

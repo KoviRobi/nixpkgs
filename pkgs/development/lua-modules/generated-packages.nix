@@ -1946,6 +1946,31 @@ buildLuarocksPackage {
   };
 }) {};
 
+lualine-nvim = callPackage({ buildLuarocksPackage, fetchFromGitHub, fetchurl, luaOlder, nvim-web-devicons }:
+buildLuarocksPackage {
+  pname = "lualine.nvim";
+  version = "scm-1";
+  knownRockspec = (fetchurl {
+    url    = "mirror://luarocks/lualine.nvim-scm-1.rockspec";
+    sha256 = "1mzsfiq4h95s0nbygwii2w8xs5rixdbha322bvx453k530s2kxxj";
+  }).outPath;
+  src = fetchFromGitHub {
+    owner = "nvim-lualine";
+    repo = "lualine.nvim";
+    rev = "f4f791f67e70d378a754d02da068231d2352e5bc";
+    hash = "sha256-uAxe3UdNUVfdpQcKvGvQ/E2blGksvMPlTBfEOtgeVYo=";
+  };
+
+  disabled = luaOlder "5.1";
+  propagatedBuildInputs = [ nvim-web-devicons ];
+
+  meta = {
+    homepage = "https://github.com/nvim-lualine/lualine.nvim";
+    description = "A blazing fast and easy to configure neovim statusline plugin written in pure lua.";
+    license.fullName = "MIT";
+  };
+}) {};
+
 lualogging = callPackage({ buildLuarocksPackage, fetchFromGitHub, fetchurl, luasocket }:
 buildLuarocksPackage {
   pname = "lualogging";
@@ -2566,14 +2591,14 @@ buildLuarocksPackage {
 lze = callPackage({ buildLuarocksPackage, fetchurl, fetchzip, luaOlder }:
 buildLuarocksPackage {
   pname = "lze";
-  version = "0.7.11-1";
+  version = "0.8.0-1";
   knownRockspec = (fetchurl {
-    url    = "mirror://luarocks/lze-0.7.11-1.rockspec";
-    sha256 = "1nvnjncs5xz5gv4vsvwnsp6hcyvbzjrxvq0li9nr84hmb5sx7z1r";
+    url    = "mirror://luarocks/lze-0.8.0-1.rockspec";
+    sha256 = "05fjfmvnfpfbd1vbjvdadp4vzkz005la9gvqcgm7k3q9nkbp1hvg";
   }).outPath;
   src = fetchzip {
-    url    = "https://github.com/BirdeeHub/lze/archive/v0.7.11.zip";
-    sha256 = "0vv333vkymjdsm73ppw8fpn9kxhapbiiikcaxhjswvrxw8ap7dwg";
+    url    = "https://github.com/BirdeeHub/lze/archive/v0.8.0.zip";
+    sha256 = "1hwar3ag52w6mm7dv0s8ymr8kp3qw8kl05w1vz3jvivyxbxc77l3";
   };
 
   disabled = luaOlder "5.1";
@@ -2589,14 +2614,14 @@ buildLuarocksPackage {
 lzextras = callPackage({ buildLuarocksPackage, fetchurl, fetchzip, luaOlder }:
 buildLuarocksPackage {
   pname = "lzextras";
-  version = "0.1.19-1";
+  version = "0.2.1-1";
   knownRockspec = (fetchurl {
-    url    = "mirror://luarocks/lzextras-0.1.19-1.rockspec";
-    sha256 = "1wdkikn246b25c8j6984nz0c7fr6vz4rbjfl4wq4785jkf4k95mc";
+    url    = "mirror://luarocks/lzextras-0.2.1-1.rockspec";
+    sha256 = "0xlmi6rg7nac0z4xwdj6b4rvbd5x7cgfd1wviag11ksh6h26nibf";
   }).outPath;
   src = fetchzip {
-    url    = "https://github.com/BirdeeHub/lzextras/archive/v0.1.19.zip";
-    sha256 = "0hq5939lygmi8i8rhqhxsjr98aixrlr7m2sb0kxppca6pb18g38c";
+    url    = "https://github.com/BirdeeHub/lzextras/archive/v0.2.1.zip";
+    sha256 = "0b6qp70ypkjizknhpbrfs9qx8za77ygfnpmrm7zz2pl8rx500nar";
   };
 
   disabled = luaOlder "5.1";
@@ -2908,30 +2933,6 @@ buildLuarocksPackage {
   };
 }) {};
 
-nvim-dbee = callPackage({ buildLuarocksPackage, fetchurl, fetchzip, luaOlder, nui-nvim }:
-buildLuarocksPackage {
-  pname = "nvim-dbee";
-  version = "0.1.9-1";
-  knownRockspec = (fetchurl {
-    url    = "mirror://luarocks/nvim-dbee-0.1.9-1.rockspec";
-    sha256 = "1lmzy6ivnwvhzclkfbcswj2mznrpc4i8s3ivdrc78rr86i49mvpg";
-  }).outPath;
-  src = fetchzip {
-    url    = "https://github.com/kndndrj/nvim-dbee/archive/v0.1.9.zip";
-    sha256 = "10xplksglyd8af8q1cl2lxcpn52b766g87gva9fd3l66idxsds00";
-  };
-
-  disabled = luaOlder "5.1";
-  propagatedBuildInputs = [ nui-nvim ];
-
-  meta = {
-    homepage = "https://github.com/kndndrj/nvim-dbee";
-    description = "Interactive database client for neovim";
-    maintainers = with lib.maintainers; [ perchun ];
-    license.fullName = "GPL-3.0";
-  };
-}) {};
-
 nvim-nio = callPackage({ buildLuarocksPackage, fetchurl, fetchzip, luaOlder }:
 buildLuarocksPackage {
   pname = "nvim-nio";
@@ -2973,6 +2974,29 @@ buildLuarocksPackage {
   meta = {
     homepage = "https://github.com/nvim-tree/nvim-web-devicons";
     description = "Nerd Font icons for neovim";
+    license.fullName = "MIT";
+  };
+}) {};
+
+oil-nvim = callPackage({ buildLuarocksPackage, fetchurl, fetchzip, luaOlder, nvim-web-devicons }:
+buildLuarocksPackage {
+  pname = "oil.nvim";
+  version = "2.15.0-1";
+  knownRockspec = (fetchurl {
+    url    = "mirror://luarocks/oil.nvim-2.15.0-1.rockspec";
+    sha256 = "0xkych23rn6jpj4hbam1j7ca1gwb9z3lzfm7id3dvcqj8aysv77j";
+  }).outPath;
+  src = fetchzip {
+    url    = "https://github.com/stevearc/oil.nvim/archive/v2.15.0.zip";
+    sha256 = "0rrv7wg0nwfj5fd6byxs4np1p18xxdzyv11ba6vqqh3s6z0qwawc";
+  };
+
+  disabled = luaOlder "5.1";
+  propagatedBuildInputs = [ nvim-web-devicons ];
+
+  meta = {
+    homepage = "https://github.com/stevearc/oil.nvim";
+    description = "Neovim file explorer: edit your filesystem like a buffer";
     license.fullName = "MIT";
   };
 }) {};
