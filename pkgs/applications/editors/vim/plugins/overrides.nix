@@ -78,6 +78,8 @@
   ncurses,
   # devdocs-nvim dependencies
   pandoc,
+  # nvim-tinygit
+  gitMinimal,
   # Preview-nvim dependencies
   md-tui,
   # sved dependencies
@@ -608,7 +610,7 @@ in
     ];
   };
 
-  codeium-nvim =
+  windsurf-nvim =
     let
       # Update according to https://github.com/Exafunction/codeium.nvim/blob/main/lua/codeium/versions.json
       codeiumVersion = "1.20.9";
@@ -646,7 +648,7 @@ in
       };
 
     in
-    super.codeium-nvim.overrideAttrs {
+    super.windsurf-nvim.overrideAttrs {
       dependencies = [ self.plenary-nvim ];
       buildPhase = ''
         cat << EOF > lua/codeium/installation_defaults.lua
@@ -1368,6 +1370,24 @@ in
     src = "${hurl.src}/contrib/vim";
   };
 
+  hurl-nvim = super.hurl-nvim.overrideAttrs {
+    dependencies = with self; [
+      nui-nvim
+      nvim-treesitter
+      plenary-nvim
+    ];
+
+    runtimeDeps = [
+      hurl
+    ];
+
+    nvimSkipModules = [
+      # attempt to index global '_HURL_GLOBAL_CONFIG' (a nil value)
+      "hurl.popup"
+      "hurl.split"
+    ];
+  };
+
   idris2-nvim = super.idris2-nvim.overrideAttrs {
     dependencies = with self; [
       nui-nvim
@@ -1427,7 +1447,7 @@ in
     ];
     buildInputs = [ curl ];
     postPatch = ''
-      substituteInPlace lua/kulala/config/init.lua \
+      substituteInPlace lua/kulala/config/defaults.lua \
         --replace-fail 'curl_path = "curl"' 'curl_path = "${lib.getExe curl}"'
     '';
   };
@@ -2133,6 +2153,13 @@ in
     ];
   };
 
+  neovim-trunk = super.neovim-trunk.overrideAttrs {
+    dependencies = with self; [
+      plenary-nvim
+      telescope-nvim
+    ];
+  };
+
   nlsp-settings-nvim = super.nlsp-settings-nvim.overrideAttrs {
     dependencies = [ self.nvim-lspconfig ];
   };
@@ -2194,6 +2221,7 @@ in
       "nvchad.themes.mappings"
       "nvchad.cheatsheet.grid"
       "nvchad.cheatsheet.simple"
+      "nvchad.blink.config"
     ];
   };
 
@@ -2457,6 +2485,18 @@ in
     ];
   };
 
+  nvim-tinygit = super.nvim-tinygit.overrideAttrs {
+    dependencies = with self; [
+      telescope-nvim
+    ];
+
+    checkInputs = [
+      gitMinimal
+      # transitive dependency (telescope-nvim) not properly propagated to the test environment
+      self.plenary-nvim
+    ];
+  };
+
   nvim-tree-lua = super.nvim-tree-lua.overrideAttrs {
     nvimSkipModules = [
       # Meta can't be required
@@ -2547,6 +2587,7 @@ in
       # Pickers, can use telescope or fzf-lua
       fzf-lua
       telescope-nvim
+      snacks-nvim
     ];
     dependencies = with self; [
       plenary-nvim
@@ -2653,6 +2694,24 @@ in
       nvim-parinfer
       nvim-paredit
       nvim-treesitter
+    ];
+  };
+
+  parrot-nvim = super.parrot-nvim.overrideAttrs {
+    runtimeDeps = [
+      curl
+    ];
+
+    dependencies = with self; [
+      plenary-nvim
+    ];
+
+    checkInputs = [
+      curl
+      ripgrep
+      # Optional integrations
+      self.blink-cmp
+      self.nvim-cmp
     ];
   };
 
@@ -3744,6 +3803,12 @@ in
 
   which-key-nvim = super.which-key-nvim.overrideAttrs {
     nvimSkipModules = [ "which-key.docs" ];
+  };
+
+  whichpy-nvim = super.whichpy-nvim.overrideAttrs {
+    checkInputs = with self; [
+      telescope-nvim
+    ];
   };
 
   wiki-vim = super.wiki-vim.overrideAttrs {
