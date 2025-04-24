@@ -58,7 +58,7 @@ in
   options.programs.nix-ld.systems = mkOption {
     default = { };
     description = ''
-      Configure nix-ld for the given system.
+      Configure nix-ld for the given system. Documentation: <https://github.com/nix-community/nix-ld>
     '';
     type = types.attrsOf (
       types.submodule (

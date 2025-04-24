@@ -271,8 +271,7 @@ mapAliases ({
   flufl_bounce = flufl-bounce; # added 2023-11-03
   flufl_i18n = flufl-i18n; # added 2023-11-03
   flufl_lock = flufl-lock; # added 2023-11-03
-  fn = throw "fn was removed as it is no longer used by any package in nixpkgs, it is not compatible with python 3.11 or newer and it was last updated in 2014."; # added 2025-02-08
-  forbiddenfruit = throw "forbiddenfruit has been removed, because it was unmaintained and relied on the nose test framework"; # added 2024-07-08
+  fn = throw "fn was removed as it is no longer used by any package in nixpkgs, it is not compatible with python 3.11 or newer and it was last updated in 2014."; # added 2025-02-08 # added 2024-07-08
   FormEncode = formencode; # added 2023-02-19
   foundationdb51 = throw "foundationdb51 is no longer maintained, use foundationdb71 instead"; # added 2023-06-06
   foundationdb52 = throw "foundationdb52 is no longer maintained, use foundationdb71 instead"; # added 2023-06-06
@@ -684,7 +683,7 @@ mapAliases ({
   ruamel_base = ruamel-base; # added 2021-11-01
   ruamel_yaml = ruamel-yaml; # added 2021-11-01
   ruamel_yaml_clib = ruamel-yaml-clib; # added 2021-11-01
-  inherit (super.pkgs) ruff-lsp; # added 2023-06-23
+  ruff-lsp = throw "ruff-lsp has been deprecated, use `ruff server` instead"; # added 2025-04-21
   runway-python = throw "SDK has been deprecated and was archived by upstream"; # added 2023-05-03
   safe = throw "safe has been removed, it was unmaintained sinced October 2019"; # added 2024-07-28
   sampledata = throw "sampledata has been removed, it was unmaintained since 2017"; # added 2024-07-27
@@ -695,6 +694,7 @@ mapAliases ({
   scikits-samplerate = throw "scikits-samplerate has been removed, it was unsed and unmaintained since 2015"; # added 2024-05-23
   selectors2 = throw "selectors2 has been removed: archived by upstream."; # added 2024-07-27
   selectors34 = throw "selectors34 has been removed: functionality provided by Python itself; archived by upstream."; # added 2021-06-10
+  sentry-sdk_2 = sentry-sdk; # added 2025-04-20
   sequoia = throw "python3Packages.sequoia was replaced by pysequoia - built from a dedicated repository, with a new API."; # added 2023-06-24
   setuptools_dso = setuptools-dso; # added 2024-03-03
   setuptools_scm = setuptools-scm; # added 2021-06-03
