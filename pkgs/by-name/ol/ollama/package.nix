@@ -125,17 +125,17 @@ in
 goBuild (finalAttrs: {
   pname = "ollama";
   # don't forget to invalidate all hashes each update
-  version = "0.6.5";
+  version = "0.6.7";
 
   src = fetchFromGitHub {
     owner = "ollama";
     repo = "ollama";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-l+JYQjl6A0fKONxtgCtc0ztT18rmArGKcO2o+p4H95M=";
+    hash = "sha256-GRqvaD/tAPI9cVlVu+HmRTv5zr7oCHdSlKoFfSLJ4r4=";
     fetchSubmodules = true;
   };
 
-  vendorHash = "sha256-4wYgtdCHvz+ENNMiHptu6ulPJAznkWetQcdba3IEB6s=";
+  vendorHash = "sha256-t7+GLNC6mRcXq9ErxN6gGki5WWWoEcMfzRVjta4fddA=";
 
   env =
     lib.optionalAttrs enableRocm {
@@ -239,6 +239,12 @@ goBuild (finalAttrs: {
 
   __darwinAllowLocalNetworking = true;
 
+  # required for github.com/ollama/ollama/detect's tests
+  sandboxProfile = lib.optionalString stdenv.hostPlatform.isDarwin ''
+    (allow file-read* (subpath "/System/Library/Extensions"))
+    (allow iokit-open (iokit-user-client-class "AGXDeviceUserClient"))
+  '';
+
   passthru = {
     tests =
       {
@@ -271,7 +277,6 @@ goBuild (finalAttrs: {
       dit7ya
       elohmeier
       prusnak
-      roydubnium
     ];
   };
 })
