@@ -15,12 +15,9 @@
 
 # CI
 /.github/*_TEMPLATE*                    @SigmaSquadron
-/.github/actions                        @NixOS/Security @Mic92 @zowoq @infinisil @azuwis @wolfgangwalther
-/.github/workflows                      @NixOS/Security @Mic92 @zowoq @infinisil @azuwis @wolfgangwalther
-/.github/workflows/check-format.yml     @infinisil @wolfgangwalther
-/.github/workflows/codeowners-v2.yml    @infinisil @wolfgangwalther
-/.github/workflows/nixpkgs-vet.yml      @infinisil @philiptaron @wolfgangwalther
-/ci                                     @infinisil @philiptaron @NixOS/Security @wolfgangwalther
+/.github/actions                        @NixOS/Security @Mic92 @zowoq @infinisil @azuwis @wolfgangwalther @philiptaron
+/.github/workflows                      @NixOS/Security @Mic92 @zowoq @infinisil @azuwis @wolfgangwalther @philiptaron
+/ci                                     @NixOS/Security @Mic92 @zowoq @infinisil @azuwis @wolfgangwalther @philiptaron
 /ci/OWNERS                              @infinisil @philiptaron
 
 # Development support
@@ -164,6 +161,13 @@ nixos/modules/installer/tools/nix-fallback-paths.nix  @NixOS/nix-team @raitobeza
 /maintainers/scripts/update.py    @jtojnar
 ## common-updater-scripts
 /pkgs/common-updater/scripts/update-source-version    @jtojnar
+
+# Android tools, libraries, and environments
+/pkgs/development/android*                    @NixOS/android
+/pkgs/development/mobile/android*             @NixOS/android
+/pkgs/applications/editors/android-studio*    @NixOS/android
+/doc/languages-frameworks/android*            @NixOS/android
+/pkgs/by-name/an/android*                     @NixOS/android
 
 # Python-related code and docs
 /doc/languages-frameworks/python.section.md   @mweinelt @natsukium
@@ -469,6 +473,9 @@ pkgs/development/beam-modules/          @NixOS/beam
 pkgs/development/interpreters/erlang/   @NixOS/beam
 pkgs/development/interpreters/elixir/   @NixOS/beam
 pkgs/development/interpreters/lfe/      @NixOS/beam
+
+# Authelia
+pkgs/servers/authelia/ @06kellyjac @dit7ya @nicomem
 
 # OctoDNS
 pkgs/by-name/oc/octodns/ @anthonyroussel

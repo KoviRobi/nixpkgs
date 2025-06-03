@@ -3294,9 +3294,7 @@ with pkgs;
 
   heimdall-gui = heimdall.override { enableGUI = true; };
 
-  headscale = callPackage ../servers/headscale {
-    buildGoModule = buildGo123Module;
-  };
+  headscale = callPackage ../servers/headscale { };
 
   highlight = callPackage ../tools/text/highlight {
     lua = lua5;
@@ -6628,10 +6626,12 @@ with pkgs;
 
   # https://py-free-threading.github.io
   python313FreeThreading = python313.override {
+    self = python313FreeThreading;
     pythonAttr = "python313FreeThreading";
     enableGIL = false;
   };
   python314FreeThreading = python314.override {
+    self = python314FreeThreading;
     pythonAttr = "python313FreeThreading";
     enableGIL = false;
   };
@@ -8138,8 +8138,6 @@ with pkgs;
   gecode_6 = qt5.callPackage ../development/libraries/gecode { };
   gecode = gecode_6;
 
-  geph = recurseIntoAttrs (callPackages ../applications/networking/geph { pnpm = pnpm_8; });
-
   gegl = callPackage ../development/libraries/gegl {
     openexr = openexr_2;
   };
@@ -9310,7 +9308,6 @@ with pkgs;
   };
 
   pcre = callPackage ../development/libraries/pcre { };
-  pcre16 = res.pcre.override { variant = "pcre16"; };
   # pcre32 seems unused
   pcre-cpp = res.pcre.override { variant = "cpp"; };
 
@@ -9536,6 +9533,17 @@ with pkgs;
   rhino = callPackage ../development/libraries/java/rhino {
     javac = jdk8;
     jvm = jre8;
+  };
+
+  rocksdb_9_10 = rocksdb.overrideAttrs rec {
+    pname = "rocksdb";
+    version = "9.10.0";
+    src = fetchFromGitHub {
+      owner = "facebook";
+      repo = pname;
+      rev = "v${version}";
+      hash = "sha256-G+DlQwEUyd7JOCjS1Hg1cKWmA/qAiK8UpUIKcP+riGQ=";
+    };
   };
 
   rocksdb_8_11 = rocksdb.overrideAttrs rec {
@@ -10879,10 +10887,6 @@ with pkgs;
 
   rake = callPackage ../development/tools/build-managers/rake { };
 
-  restic = callPackage ../tools/backup/restic { };
-
-  restic-rest-server = callPackage ../tools/backup/restic/rest-server.nix { };
-
   rethinkdb = callPackage ../servers/nosql/rethinkdb {
     stdenv = clangStdenv;
     libtool = cctools;
@@ -11929,8 +11933,6 @@ with pkgs;
 
   activitywatch = callPackage ../applications/office/activitywatch/wrapper.nix { };
 
-  adobe-reader = pkgsi686Linux.callPackage ../applications/misc/adobe-reader { };
-
   anilibria-winmaclinux = libsForQt5.callPackage ../applications/video/anilibria-winmaclinux { };
 
   masterpdfeditor4 = libsForQt5.callPackage ../applications/misc/masterpdfeditor4 { };
@@ -12782,6 +12784,7 @@ with pkgs;
   inherit (callPackages ../development/libraries/wlroots { })
     wlroots_0_17
     wlroots_0_18
+    wlroots_0_19
     ;
 
   sway-contrib = recurseIntoAttrs (callPackages ../applications/misc/sway-contrib { });
@@ -13007,7 +13010,7 @@ with pkgs;
     k3s_1_32
     k3s_1_33
     ;
-  k3s = k3s_1_32;
+  k3s = k3s_1_33;
 
   kapow = libsForQt5.callPackage ../applications/misc/kapow { };
 
@@ -13539,9 +13542,7 @@ with pkgs;
 
   mythtv = libsForQt5.callPackage ../applications/video/mythtv { };
 
-  ncdu = callPackage ../tools/misc/ncdu { };
-
-  ncdu_1 = callPackage ../tools/misc/ncdu/1.nix { };
+  ncdu_1 = callPackage ../by-name/nc/ncdu/1.nix { };
 
   notepadqq = libsForQt5.callPackage ../applications/editors/notepadqq { };
 
@@ -13612,8 +13613,6 @@ with pkgs;
   opentx = libsForQt5.callPackage ../applications/misc/opentx { };
 
   organicmaps = qt6Packages.callPackage ../applications/misc/organicmaps { };
-
-  vivaldi = callPackage ../applications/networking/browsers/vivaldi { };
 
   openrazer-daemon = python3Packages.toPythonApplication python3Packages.openrazer-daemon;
 
@@ -13687,8 +13686,6 @@ with pkgs;
   plater = libsForQt5.callPackage ../applications/misc/plater { };
 
   plexamp = callPackage ../applications/audio/plexamp { };
-
-  plex-media-player = libsForQt5.callPackage ../applications/video/plex-media-player { };
 
   plex-mpv-shim = python3Packages.callPackage ../applications/video/plex-mpv-shim { };
 
@@ -14262,7 +14259,7 @@ with pkgs;
   traverso = libsForQt5.callPackage ../applications/audio/traverso { };
 
   tinywl = callPackage ../applications/window-managers/tinywl {
-    wlroots = wlroots_0_18;
+    wlroots = wlroots_0_19;
   };
 
   trojita = libsForQt5.callPackage ../applications/networking/mailreaders/trojita { };
@@ -15625,14 +15622,14 @@ with pkgs;
     ;
 
   trimmomatic = callPackage ../applications/science/biology/trimmomatic {
-    jdk = pkgs.jdk11_headless;
+    jdk = pkgs.jdk21_headless;
     # Reduce closure size
     jre = pkgs.jre_minimal.override {
       modules = [
         "java.base"
         "java.logging"
       ];
-      jdk = pkgs.jdk11_headless;
+      jdk = pkgs.jdk21_headless;
     };
   };
 
@@ -15900,6 +15897,7 @@ with pkgs;
     polyml = polyml.overrideAttrs {
       pname = "polyml-for-isabelle";
       version = "2025";
+      __intentionallyOverridingVersion = true; # avoid a warning, no src override
       configureFlags = [
         "--enable-intinf-as-int"
         "--with-gmp"

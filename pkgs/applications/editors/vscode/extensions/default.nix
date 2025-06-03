@@ -89,8 +89,8 @@ let
         mktplcRef = {
           publisher = "42Crunch";
           name = "vscode-openapi";
-          version = "4.33.2";
-          hash = "sha256-agCxi2UhJitdQmHIf6rK7WexkfljUQdqK5rLqzV4J6o=";
+          version = "4.34.0";
+          hash = "sha256-iGVXWKa7xX4WrUeta8ofsXWHQSlxpv8289R9iFdPaII=";
         };
         meta = {
           changelog = "https://marketplace.visualstudio.com/items/42Crunch.vscode-openapi/changelog";
@@ -260,8 +260,8 @@ let
         mktplcRef = {
           name = "ng-template";
           publisher = "Angular";
-          version = "20.0.0";
-          hash = "sha256-87SImzcGbwvf9xtdbD3etqaWe6fMVeCKc+f8qTyFnUA=";
+          version = "20.0.1";
+          hash = "sha256-N+2uNX1gXGHAvkx2aff9DfB7vji8bXNLt86yaSYt0o0=";
         };
         meta = {
           changelog = "https://marketplace.visualstudio.com/items/Angular.ng-template/changelog";
@@ -411,8 +411,8 @@ let
         mktplcRef = {
           name = "vscode-neovim";
           publisher = "asvetliakov";
-          version = "1.18.21";
-          hash = "sha256-I5jrp8sGn+M8bJo93jNrx+s4sB0p3sGN4lLLROstkKA=";
+          version = "1.18.22";
+          hash = "sha256-nSRZGRhqRO52dx3QfSJZR5uVNVaxw0mcH/JBFyrUGKA=";
         };
         meta = {
           changelog = "https://marketplace.visualstudio.com/items/asvetliakov.vscode-neovim/changelog";
@@ -1181,8 +1181,8 @@ let
         mktplcRef = {
           name = "vscode-database-client2";
           publisher = "cweijan";
-          version = "8.3.2";
-          hash = "sha256-cBFc8F8FwP7rSWyRTZqi19MihwHE6xNpb4I4O+4zhWs=";
+          version = "8.3.4";
+          hash = "sha256-rZ/xYe5Ng532XhLCzCtVmcYTDekAaMu3vLnvTagFupE=";
         };
         meta = {
           description = "Database Client For Visual Studio Code";
@@ -1587,8 +1587,8 @@ let
           # semver scheme, contrary to preview versions which are listed on
           # the VSCode Marketplace and use a calver scheme. We should avoid
           # using preview versions, because they expire after two weeks.
-          version = "17.1.0";
-          hash = "sha256-WPSMf1yLXSDqImpMTxn1eXcSrimVSVjjaXDzFMQ/l0E=";
+          version = "17.1.1";
+          hash = "sha256-hlhq4bR3v0AqI3lxilgNEgjjEEBVL0xfvIWbV/Ronh4=";
         };
         meta = {
           changelog = "https://marketplace.visualstudio.com/items/eamodio.gitlens/changelog";
@@ -2129,8 +2129,8 @@ let
         mktplcRef = {
           name = "gitlab-workflow";
           publisher = "gitlab";
-          version = "6.13.1";
-          hash = "sha256-v+gnZPemEMtyBNxwQf0OOp1QSy1+uWDNH9tBu4HwGDg=";
+          version = "6.17.0";
+          hash = "sha256-4/wGrHFB7yn7WTJq9igOU6XTOQZ1PGZ6kdMBP/IlZqw=";
         };
         meta = {
           description = "GitLab extension for Visual Studio Code";
@@ -2975,8 +2975,8 @@ let
         mktplcRef = {
           name = "vscord";
           publisher = "leonardssh";
-          version = "5.2.13";
-          hash = "sha256-Jgm3ekXFLhylX7RM6tdfi+lRLrcl4UQGmRHbr27M59M=";
+          version = "5.3.2";
+          hash = "sha256-kj1D0X6Wj088nwgFlWZkPG+zaHsqb0MapycPIfRWEIk=";
         };
         meta = {
           description = "Highly customizable Discord Rich Presence extension for Visual Studio Code";
@@ -4669,8 +4669,8 @@ let
         mktplcRef = {
           name = "svelte-vscode";
           publisher = "svelte";
-          version = "109.8.0";
-          hash = "sha256-T0pNjjeKKX/T1Oc+zvOHu74H4r4F9Ogk5gDV7z0+D9I=";
+          version = "109.8.1";
+          hash = "sha256-ILZ7YA7LngwpU3U+qsgHPd+oxyqLNGRiKUCFC/OMBAo=";
         };
         meta = {
           changelog = "https://github.com/sveltejs/language-tools/releases";
@@ -5316,8 +5316,8 @@ let
         mktplcRef = {
           name = "vim";
           publisher = "vscodevim";
-          version = "1.29.2";
-          hash = "sha256-RBh4yQxOoUpwNKedFjEeu6hO0tU9AAPlDrt2LhgZT50=";
+          version = "1.30.1";
+          hash = "sha256-cKdVQTGj7R37YefQAaTspF1RVul/9wv7u9b5TpGZN5k=";
         };
         meta = {
           license = lib.licenses.mit;
