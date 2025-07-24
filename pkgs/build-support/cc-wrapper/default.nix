@@ -726,6 +726,10 @@ stdenvNoCC.mkDerivation {
       echo "-isystem ${getDev libcxx}/include/c++/v1" >> $out/nix-support/libcxx-cxxflags
       echo "-stdlib=libc++" >> $out/nix-support/libcxx-ldflags
     ''
+    # GCC NG friendly libc++
+    + optionalString (libcxx != null && libcxx.isGNU or false) ''
+      echo "-isystem ${getDev libcxx}/include" >> $out/nix-support/libcxx-cxxflags
+    ''
 
     ##
     ## Initial CFLAGS

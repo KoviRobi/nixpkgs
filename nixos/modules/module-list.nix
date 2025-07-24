@@ -104,6 +104,7 @@
   ./hardware/sata.nix
   ./hardware/sensor/hddtemp.nix
   ./hardware/sensor/iio.nix
+  ./hardware/sheep-net.nix
   ./hardware/steam-hardware.nix
   ./hardware/system-76.nix
   ./hardware/tuxedo-drivers.nix
@@ -332,6 +333,7 @@
   ./programs/vim.nix
   ./programs/virt-manager.nix
   ./programs/vivid.nix
+  ./programs/vscode.nix
   ./programs/wavemon.nix
   ./programs/wayland/cardboard.nix
   ./programs/wayland/dwl.nix
@@ -596,6 +598,7 @@
   ./services/display-managers/default.nix
   ./services/display-managers/gdm.nix
   ./services/display-managers/greetd.nix
+  ./services/display-managers/lemurs.nix
   ./services/display-managers/ly.nix
   ./services/display-managers/sddm.nix
   ./services/editors/emacs.nix
@@ -779,6 +782,7 @@
   ./services/matrix/pantalaimon.nix
   ./services/matrix/synapse-auto-compressor.nix
   ./services/matrix/synapse.nix
+  ./services/matrix/tuwunel.nix
   ./services/misc/airsonic.nix
   ./services/misc/amazon-ssm-agent.nix
   ./services/misc/ananicy.nix
@@ -880,6 +884,7 @@
   ./services/misc/osrm.nix
   ./services/misc/owncast.nix
   ./services/misc/packagekit.nix
+  ./services/misc/paisa.nix
   ./services/misc/paperless.nix
   ./services/misc/parsoid.nix
   ./services/misc/persistent-evdev.nix
@@ -1069,6 +1074,7 @@
   ./services/networking/anubis.nix
   ./services/networking/aria2.nix
   ./services/networking/asterisk.nix
+  ./services/networking/atalkd.nix
   ./services/networking/atftpd.nix
   ./services/networking/atticd.nix
   ./services/networking/autossh.nix
@@ -1244,6 +1250,7 @@
   ./services/networking/netclient.nix
   ./services/networking/networkd-dispatcher.nix
   ./services/networking/networkmanager.nix
+  ./services/networking/newt.nix
   ./services/networking/nextdns.nix
   ./services/networking/nftables.nix
   ./services/networking/nghttpx/default.nix
@@ -1528,6 +1535,7 @@
   ./services/web-apps/castopod.nix
   ./services/web-apps/changedetection-io.nix
   ./services/web-apps/chatgpt-retrieval-plugin.nix
+  ./services/web-apps/chhoto-url.nix
   ./services/web-apps/cloudlog.nix
   ./services/web-apps/code-server.nix
   ./services/web-apps/coder.nix
