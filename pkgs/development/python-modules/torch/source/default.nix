@@ -526,7 +526,9 @@ buildPythonPackage rec {
     blas
     blas.provider
   ]
-  ++ lib.optionals stdenv.cc.isClang [ llvmPackages.openmp ]
+  # Including openmp leads to two copies being used on ARM, which segfaults.
+  # https://github.com/pytorch/pytorch/issues/149201#issuecomment-2776842320
+  ++ lib.optionals (stdenv.cc.isClang && !stdenv.hostPlatform.isAarch64) [ llvmPackages.openmp ]
   ++ lib.optionals cudaSupport (
     with cudaPackages;
     [
@@ -550,10 +552,7 @@ buildPythonPackage rec {
       # Some platforms do not support NCCL (i.e., Jetson)
       nccl # Provides nccl.h AND a static copy of NCCL!
     ]
-    ++ lists.optionals (cudaOlder "11.8") [
-      cuda_nvprof # <cuda_profiler_api.h>
-    ]
-    ++ lists.optionals (cudaAtLeast "11.8") [
+    ++ [
       cuda_profiler_api # <cuda_profiler_api.h>
     ]
   )

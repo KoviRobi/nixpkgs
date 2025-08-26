@@ -6,28 +6,23 @@
   rustPlatform,
   nixosTests,
   nix-update-script,
-
   autoPatchelfHook,
   cmake,
   ncurses,
   pkg-config,
-
   gcc-unwrapped,
   fontconfig,
   libGL,
   vulkan-loader,
   libxkbcommon,
-
   withX11 ? !stdenv.hostPlatform.isDarwin,
   libX11,
   libXcursor,
   libXi,
   libXrandr,
   libxcb,
-
   withWayland ? !stdenv.hostPlatform.isDarwin,
   wayland,
-
   testers,
   rio,
 }:
@@ -53,18 +48,19 @@ let
 in
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "rio";
-  version = "0.2.23";
+  version = "0.2.28";
 
   src = fetchFromGitHub {
     owner = "raphamorim";
     repo = "rio";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-hhKlXuhv0PP8/xCIZ0lFGtCYCzOzH0gUeh48GdKpG6A=";
+    hash = "sha256-bQ6Kj8kKDdcvRX5084KRjsuctp22Zi7375GWjOBznhw=";
   };
 
-  cargoHash = "sha256-+pfudGeWq4EARQDu+HAZczWlzStuzDPArMm1oCZGfKU=";
+  cargoHash = "sha256-LJLexxczsqtIZuLil7sB3aAt1S2RBOmuvOQTBeuSUP4";
 
   nativeBuildInputs = [
+    rustPlatform.bindgenHook
     ncurses
   ]
   ++ lib.optionals stdenv.hostPlatform.isLinux [

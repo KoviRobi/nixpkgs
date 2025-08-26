@@ -1188,6 +1188,10 @@ with self;
         --replace-fail http://cpanmetadb.plackperl.org https://cpanmetadb.plackperl.org
     '';
     propagatedBuildInputs = [ IOSocketSSL ];
+    nativeBuildInputs = lib.optional stdenv.hostPlatform.isDarwin shortenPerlShebang;
+    postInstall = lib.optionalString stdenv.hostPlatform.isDarwin ''
+      shortenPerlShebang $out/bin/cpanm
+    '';
     meta = {
       description = "Get, unpack, build and install modules from CPAN";
       homepage = "https://github.com/miyagawa/cpanminus";
@@ -3307,6 +3311,13 @@ with self;
       url = "mirror://cpan/authors/id/E/ET/ETHER/Catalyst-Authentication-Credential-HTTP-1.018.tar.gz";
       hash = "sha256-b6GBbe5kSw216gzBXF5xHcLO0gg2JavOcJZSHx1lpSk=";
     };
+    patches = [
+      (fetchpatch {
+        name = "CVE-2025-40920.patch";
+        url = "https://github.com/perl-catalyst/Catalyst-Authentication-Credential-HTTP/commit/ad2c03aad95406db4ce35dfb670664ebde004c18.patch";
+        hash = "sha256-WI6JwvY6i3KkQO9HbbSvHPX8mgM8I2cF0UTjF1D14T4=";
+      })
+    ];
     buildInputs = [
       ModuleBuildTiny
       TestException
@@ -3316,6 +3327,7 @@ with self;
     propagatedBuildInputs = [
       CatalystPluginAuthentication
       ClassAccessor
+      CryptSysRandom
       DataUUID
       StringEscape
     ];
@@ -4700,7 +4712,6 @@ with self;
       homepage = "https://pcsc-perl.apdu.fr/";
       license = with lib.licenses; [ gpl2Plus ];
       maintainers = with maintainers; [
-        abbradar
         anthonyroussel
       ];
     };
@@ -7476,6 +7487,22 @@ with self;
     };
   };
 
+  CryptSysRandom = buildPerlPackage {
+    pname = "Crypt-SysRandom";
+    version = "0.007";
+    src = fetchurl {
+      url = "mirror://cpan/authors/id/L/LE/LEONT/Crypt-SysRandom-0.007.tar.gz";
+      hash = "sha256-pdSemPyjxSZsea6YmoXsoik0sFiAPuSz5usI78pO70Y=";
+    };
+    meta = {
+      description = "Perl interface to system randomness";
+      license = with lib.licenses; [
+        artistic1
+        gpl1Plus
+      ];
+    };
+  };
+
   CryptTwofish = buildPerlPackage {
     pname = "Crypt-Twofish";
     version = "2.18";
@@ -8164,7 +8191,7 @@ with self;
         artistic1
         gpl1Plus
       ];
-      maintainers = with maintainers; [ ];
+      maintainers = [ ];
       mainProgram = "hexdump";
     };
   };
@@ -21462,10 +21489,10 @@ with self;
 
   Minion = buildPerlPackage {
     pname = "Minion";
-    version = "10.30";
+    version = "10.31";
     src = fetchurl {
-      url = "mirror://cpan/authors/id/S/SR/SRI/Minion-10.30.tar.gz";
-      hash = "sha256-twS9ZuxK8cAzlGifAsCsBIDr0GzpzKFykVAbkgLG7Rw=";
+      url = "mirror://cpan/authors/id/S/SR/SRI/Minion-10.31.tar.gz";
+      hash = "sha256-MGj5kDPmnfCBRbWEqR7iJPTpfcYkLhAiIegiCj8oUDs=";
     };
     propagatedBuildInputs = [
       Mojolicious
@@ -22422,10 +22449,10 @@ with self;
 
   Mojolicious = buildPerlPackage {
     pname = "Mojolicious";
-    version = "9.36";
+    version = "9.39";
     src = fetchurl {
-      url = "mirror://cpan/authors/id/S/SR/SRI/Mojolicious-9.36.tar.gz";
-      hash = "sha256-UX7Pb9hqC3xhadVRAiOL+YUWGNt2L7ANTPDZTGJSAV8=";
+      url = "mirror://cpan/authors/id/S/SR/SRI/Mojolicious-9.39.tar.gz";
+      hash = "sha256-EwpJDXfXYTn3NM4biU1Fm64DgF+x89/dWPxE/oKvPP0=";
     };
     meta = {
       description = "Real-time web framework";
@@ -32347,12 +32374,12 @@ with self;
 
   SysVirt = buildPerlModule rec {
     pname = "Sys-Virt";
-    version = "11.2.0";
+    version = "11.6.0";
     src = fetchFromGitLab {
       owner = "libvirt";
       repo = "libvirt-perl";
       tag = "v${version}";
-      hash = "sha256-e/Zb9ox/ehfybpxiCAsEl97T1vjBNpRYJK/kmehPHsY=";
+      hash = "sha256-a3c+ESUkpfaxJ6wuwgCRUoX5+N2KmpqXBgNNVqYZ/T0=";
     };
     nativeBuildInputs = [ pkgs.pkg-config ];
     buildInputs = [

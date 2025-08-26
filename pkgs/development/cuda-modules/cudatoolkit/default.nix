@@ -1,5 +1,6 @@
 {
   cudaMajorMinorVersion,
+  cudaAtLeast,
   runPatches ? [ ],
   autoPatchelfHook,
   autoAddDriverRunpath,
@@ -41,9 +42,6 @@
   wayland,
   xorg,
   zlib,
-  libglut,
-  libGLU,
-  libsForQt5,
   libtiff,
   qt6Packages,
   qt6,
@@ -59,7 +57,7 @@ let
   release = releases.${cudaMajorMinorVersion};
 in
 
-backendStdenv.mkDerivation rec {
+backendStdenv.mkDerivation {
   pname = "cudatoolkit";
   inherit (release) version;
   inherit runPatches;
@@ -83,8 +81,8 @@ backendStdenv.mkDerivation rec {
     autoPatchelfHook
     autoAddDriverRunpath
     markForCudatoolkitRootHook
-  ]
-  ++ lib.optionals (lib.versionAtLeast version "11.8") [ qt6Packages.wrapQtAppsHook ];
+    qt6Packages.wrapQtAppsHook
+  ];
   propagatedBuildInputs = [ setupCudaHook ];
   buildInputs = [
     # To get $GDK_PIXBUF_MODULE_FILE via setup-hook
@@ -123,8 +121,6 @@ backendStdenv.mkDerivation rec {
     alsa-lib
     wayland
     libglvnd
-  ]
-  ++ lib.optionals (lib.versionAtLeast version "11.8") [
     (lib.getLib libtiff)
     qt6Packages.qtwayland
     rdma-core
@@ -132,8 +128,8 @@ backendStdenv.mkDerivation rec {
     xorg.libxshmfence
     xorg.libxkbfile
   ]
-  ++ (lib.optionals (lib.versionAtLeast version "12") (
-    map lib.getLib ([
+  ++ map lib.getLib (
+    [
       # Used by `/target-linux-x64/CollectX/clx` and `/target-linux-x64/CollectX/libclx_api.so` for:
       # - `libcurl.so.4`
       curlMinimal
@@ -141,7 +137,7 @@ backendStdenv.mkDerivation rec {
       # Used by `/host-linux-x64/Scripts/WebRTCContainer/setup/neko/server/bin/neko`
       gst_all_1.gstreamer
       gst_all_1.gst-plugins-base
-    ])
+    ]
     ++ (with qt6; [
       qtmultimedia
       qttools
@@ -151,15 +147,13 @@ backendStdenv.mkDerivation rec {
       qtwebchannel
       qtwebengine
     ])
-  ))
-  ++ lib.optionals (lib.versionAtLeast version "12.6") [
+  )
+  ++ [
     # libcrypt.so.1
     libxcrypt-legacy
     ncurses6
     python310
     python311
-  ]
-  ++ lib.optionals (lib.versionAtLeast version "12.9") [
     # Replace once https://github.com/NixOS/nixpkgs/pull/421740 is merged.
     (libxml2.overrideAttrs rec {
       version = "2.13.8";
@@ -238,41 +232,29 @@ backendStdenv.mkDerivation rec {
     mv pkg/builds/nsight_systems/target-linux-x64 $out/target-linux-x64
     mv pkg/builds/nsight_systems/host-linux-x64 $out/host-linux-x64
     rm $out/host-linux-x64/libstdc++.so*
-      ${lib.optionalString (lib.versionAtLeast version "11.8" && lib.versionOlder version "12")
-        # error: auto-patchelf could not satisfy dependency libtiff.so.5 wanted by /nix/store/.......-cudatoolkit-12.0.1/host-linux-x64/Plugins/imageformats/libqtiff.so
-        # we only ship libtiff.so.6, so let's use qt plugins built by Nix.
-        # TODO: don't copy, come up with a symlink-based "merge"
-        ''
-          rsync ${lib.getLib qt6Packages.qtimageformats}/lib/qt-6/plugins/ $out/host-linux-x64/Plugins/ -aP
-        ''
-      }
-      ${lib.optionalString (lib.versionAtLeast version "12")
-        # Use Qt plugins built by Nix.
-        ''
-          for qtlib in $out/host-linux-x64/Plugins/*/libq*.so; do
-            qtdir=$(basename $(dirname $qtlib))
-            filename=$(basename $qtlib)
-            for qtpkgdir in ${
-              lib.concatMapStringsSep " " (x: qt6Packages.${x}) [
-                "qtbase"
-                "qtimageformats"
-                "qtsvg"
-                "qtwayland"
-              ]
-            }; do
-              if [ -e $qtpkgdir/lib/qt-6/plugins/$qtdir/$filename ]; then
-                ln -snf $qtpkgdir/lib/qt-6/plugins/$qtdir/$filename $qtlib
-              fi
-            done
-          done
-        ''
-      }
+  ''
+  # Use Qt plugins built by Nix.
+  + ''
+    for qtlib in $out/host-linux-x64/Plugins/*/libq*.so; do
+      qtdir=$(basename $(dirname $qtlib))
+      filename=$(basename $qtlib)
+      for qtpkgdir in ${
+        lib.concatMapStringsSep " " (x: qt6Packages.${x}) [
+          "qtbase"
+          "qtimageformats"
+          "qtsvg"
+          "qtwayland"
+        ]
+      }; do
+        if [ -e $qtpkgdir/lib/qt-6/plugins/$qtdir/$filename ]; then
+          ln -snf $qtpkgdir/lib/qt-6/plugins/$qtdir/$filename $qtlib
+        fi
+      done
+    done
 
     rm -f $out/tools/CUDA_Occupancy_Calculator.xls # FIXME: why?
 
-    ${lib.optionalString (lib.versionAtLeast version "12.0") ''
-      rm $out/host-linux-x64/libQt6*
-    ''}
+    rm $out/host-linux-x64/libQt6*
 
     # Fixup path to samples (needed for cuda 6.5 or else nsight will not find them)
     if [ -d "$out"/cuda-samples ]; then
@@ -307,20 +289,15 @@ backendStdenv.mkDerivation rec {
       wrapProgram $out/bin/nvprof \
         --prefix LD_LIBRARY_PATH : $out/lib
     ''
-  # 11.8 and 12.9 include a broken symlink, include/include, pointing to targets/x86_64-linux/include
-  +
-    lib.optionalString
-      (lib.versions.majorMinor version == "11.8" || lib.versions.majorMinor version == "12.9")
-      ''
-        rm $out/include/include
-      ''
-  # 12.9 has another broken symlink, lib64/lib64, pointing to lib/targets/x86_64-linux/lib
-  + lib.optionalString (lib.versions.majorMinor version == "12.9") ''
+  # 12.9 includes a broken symlink, include/include, pointing to targets/x86_64-linux/include
+  # and another, lib64/lib64, pointing to lib/targets/x86_64-linux/lib
+  + lib.optionalString (cudaMajorMinorVersion == "12.9") ''
+    rm $out/include/include
     rm $out/lib64/lib64
   ''
   # Python 3.8 and 3.9 are not in nixpkgs anymore, delete Python 3.{8,9} cuda-gdb support
   # to avoid autopatchelf failing to find libpython3.{8,9}.so.
-  + lib.optionalString (lib.versionAtLeast version "12.6") ''
+  + ''
     find $out -name '*python3.8*' -delete
     find $out -name '*python3.9*' -delete
   ''
@@ -333,19 +310,17 @@ backendStdenv.mkDerivation rec {
       wrapProgram "$out/bin/$b" \
         --set GDK_PIXBUF_MODULE_FILE "$GDK_PIXBUF_MODULE_FILE"
     done
-    ${lib.optionalString (lib.versionAtLeast version "12")
-      # Check we don't have any lurking vendored qt libraries that weren't
-      # replaced during installPhase
-      ''
-        qtlibfiles=$(find $out -name "libq*.so" -type f)
-        if [ ! -z "$qtlibfiles" ]; then
-          echo "Found unexpected vendored Qt library files in $out" >&2
-          echo $qtlibfiles >&2
-          echo "These should be replaced with symlinks in installPhase" >&2
-          exit 1
-        fi
-      ''
-    }
+  ''
+  # Check we don't have any lurking vendored qt libraries that weren't
+  # replaced during installPhase
+  + ''
+    qtlibfiles=$(find $out -name "libq*.so" -type f)
+    if [ ! -z "$qtlibfiles" ]; then
+      echo "Found unexpected vendored Qt library files in $out" >&2
+      echo $qtlibfiles >&2
+      echo "These should be replaced with symlinks in installPhase" >&2
+      exit 1
+    fi
   '';
 
   # cuda-gdb doesn't run correctly when not using sandboxing, so
@@ -368,11 +343,6 @@ backendStdenv.mkDerivation rec {
     done
     popd
   '';
-  passthru = {
-    inherit (backendStdenv) cc;
-    majorMinorVersion = lib.versions.majorMinor version;
-    majorVersion = lib.versions.majorMinor version;
-  };
 
   meta = with lib; {
     description = "Deprecated runfile-based CUDAToolkit installation (a compiler for NVIDIA GPUs, math libraries, and tools)";

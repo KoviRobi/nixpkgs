@@ -34,15 +34,23 @@ let
 in
 python.pkgs.buildPythonApplication rec {
   pname = "esphome";
-  version = "2025.7.3";
+  version = "2025.8.0";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "esphome";
     repo = "esphome";
     tag = version;
-    hash = "sha256-njhcH/C55i1Xkclt2bp+z9OXhR7gsewWUgW3bn/1yig=";
+    hash = "sha256-LOHsiSiqeCLrKLcVfAiPZl54aDTaYuKw073h0XMDiTE=";
   };
+
+  patches = [
+    # Use the esptool executable directly in the ESP32 post build script, that
+    # gets executed by platformio. This is required, because platformio uses its
+    # own python environment through `python -m esptool` and then fails to find
+    # the esptool library.
+    ./esp32-post-build-esptool-reference.patch
+  ];
 
   build-system = with python.pkgs; [
     setuptools
