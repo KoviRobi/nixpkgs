@@ -1085,6 +1085,7 @@ in
   ntpd-rs = runTest ./ntpd-rs.nix;
   nvidia-container-toolkit = runTest ./nvidia-container-toolkit.nix;
   nvmetcfg = runTest ./nvmetcfg.nix;
+  nyxt = runTest ./nyxt.nix;
   nzbget = runTest ./nzbget.nix;
   nzbhydra2 = runTest ./nzbhydra2.nix;
   ocis = runTest ./ocis.nix;
@@ -1136,6 +1137,7 @@ in
   packagekit = runTest ./packagekit.nix;
   paisa = runTest ./paisa.nix;
   pam-file-contents = runTest ./pam/pam-file-contents.nix;
+  pam-lastlog = runTest ./pam/pam-lastlog.nix;
   pam-oath-login = runTest ./pam/pam-oath-login.nix;
   pam-u2f = runTest ./pam/pam-u2f.nix;
   pam-ussh = runTest ./pam/pam-ussh.nix;
@@ -1344,6 +1346,7 @@ in
   simple = runTest ./simple.nix;
   sing-box = runTest ./sing-box.nix;
   slimserver = runTest ./slimserver.nix;
+  slipshow = runTest ./slipshow.nix;
   slurm = runTest ./slurm.nix;
   snmpd = runTest ./snmpd.nix;
   smokeping = runTest ./smokeping.nix;
@@ -1487,6 +1490,7 @@ in
   teleport = handleTest ./teleport.nix { };
   teleports = runTest ./teleports.nix;
   thelounge = handleTest ./thelounge.nix { };
+  temporal = runTest ./temporal.nix;
   terminal-emulators = handleTest ./terminal-emulators.nix { };
   thanos = runTest ./thanos.nix;
   tiddlywiki = runTest ./tiddlywiki.nix;

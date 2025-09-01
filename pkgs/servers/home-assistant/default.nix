@@ -138,6 +138,18 @@ let
         ];
       });
 
+      hassil = super.hassil.overridePythonAttrs (oldAttrs: rec {
+        version = "2.2.3";
+
+        src = fetchFromGitHub {
+          inherit (oldAttrs.src) repo owner;
+          tag = "v${version}";
+          hash = "sha256-rP7F0BovD0Klf06lywo+1uFhPf+dS0qbNBZluun8+cE=";
+        };
+
+        disabledTestPaths = [ ];
+      });
+
       mcp = super.mcp.overridePythonAttrs (oldAttrs: rec {
         version = "1.5.0";
         src = fetchFromGitHub {
@@ -201,6 +213,17 @@ let
           hash = "sha256-17MHrYRmqkH+1QLtgq2d6zaRtqvb9ju9dvPt9gB2xCc=";
         };
       });
+
+      py-madvr2 = super.py-madvr2.overridePythonAttrs rec {
+        version = "1.6.33";
+        src = fetchFromGitHub {
+          owner = "iloveicedgreentea";
+          repo = "py-madvr";
+          tag = "v${version}";
+          hash = "sha256-z+PVLz9eApGJ94I/Jp0MyqNpKQwIemk8j+OyqFmIbgI=";
+        };
+        pythonImportsCheck = [ "madvr" ];
+      };
 
       # Pinned due to API changes >0.3.5.3
       pyatag = super.pyatag.overridePythonAttrs (oldAttrs: rec {
