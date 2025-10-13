@@ -34,7 +34,7 @@
 }:
 let
   pnpm = pnpm_10;
-  version = "1.142.1";
+  version = "2.0.1";
 
   esbuild' = buildPackages.esbuild.override {
     buildGoModule =
@@ -56,7 +56,7 @@ let
 
   buildLock = {
     sources =
-      builtins.map
+      map
         (p: {
           name = p.pname;
           inherit (p) version;
@@ -108,14 +108,14 @@ let
     owner = "immich-app";
     repo = "immich";
     tag = "v${version}";
-    hash = "sha256-u538GWupnkH2K81Uk9yEuHc3pAeVexnJOnhWo7gElL0=";
+    hash = "sha256-lpFUjjS7Q2F/Uhog1NdJ8vaVIGjmZM9ZWxW5d0zoQsc=";
   };
 
   pnpmDeps = pnpm.fetchDeps {
     pname = "immich";
     inherit version src;
     fetcherVersion = 2;
-    hash = "sha256-aYG5SpFZxhbz32YAdP39RYwn2GV+mFWhddd4IFuPuz8=";
+    hash = "sha256-+CwwTqjI+xOGCAb66lZplNMBwR2xJZBs6E0OyGHbSAE=";
   };
 
   web = stdenv.mkDerivation {
@@ -224,9 +224,9 @@ stdenv.mkDerivation {
 
     echo '${builtins.toJSON buildLock}' > "$packageOut/build/build-lock.json"
 
-    makeWrapper '${lib.getExe nodejs}' "$out/bin/admin-cli" \
+    makeWrapper '${lib.getExe nodejs}' "$out/bin/immich-admin" \
       --add-flags "$packageOut/dist/main" \
-      --add-flags cli
+      --add-flags immich-admin
     makeWrapper '${lib.getExe nodejs}' "$out/bin/server" \
       --add-flags "$packageOut/dist/main" \
       --chdir "$packageOut" \

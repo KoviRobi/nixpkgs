@@ -2,31 +2,21 @@
   lib,
   buildNpmPackage,
   fetchFromGitHub,
-  pkg-config,
-  libsecret,
 }:
 
 buildNpmPackage (finalAttrs: {
   pname = "prisma-language-server";
-  version = "6.16.2";
+  version = "6.17.1";
 
   src = fetchFromGitHub {
     owner = "prisma";
     repo = "language-tools";
     tag = "${finalAttrs.version}";
-    hash = "sha256-UZP0pLcbMeaYI0ytOJ68l/ZEC9dBhohJZyTU99p+1QM=";
+    hash = "sha256-L2THhIjCeoNRUWTQ0aMkXeatjunRPhd0m4No5UE11lI=";
   };
 
   sourceRoot = "${finalAttrs.src.name}/packages/language-server";
-
-  nativeBuildInputs = [ pkg-config ];
-  buildInputs = [ libsecret ];
-
-  npmDepsHash = "sha256-UAGz/qCYf+jsgCWqvR52mW6Ze3WWP9EHuE4k9wCbnH0=";
-
-  npmPackFlags = [ "--ignore-scripts" ];
-
-  NODE_OPTIONS = "--openssl-legacy-provider";
+  npmDepsHash = "sha256-Fa6Eajzm3/NHHr4ngsgJ/CFfEcQ2J3DTEQEUcK7ZdeU=";
 
   meta = {
     description = "Language server for Prisma";

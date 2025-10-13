@@ -1,16 +1,31 @@
 {
   lib,
-  commitizen,
+  python3,
+  fetchPypi,
   fetchFromGitHub,
   gitMinimal,
   stdenv,
   installShellFiles,
   nix-update-script,
-  python3Packages,
   versionCheckHook,
   writableTmpDirAsHomeHook,
 }:
-
+let
+  # commitizen 4.9.1 is not compatible with version 3.0.52 of prompt-toolkit
+  python = python3.override {
+    packageOverrides = self: super: {
+      prompt-toolkit = super.prompt-toolkit.overridePythonAttrs (oldAttrs: rec {
+        version = "3.0.51";
+        pname = "prompt_toolkit";
+        src = fetchPypi {
+          inherit pname version;
+          hash = "sha256-kxoWLjsn/JDIbxtIux+yxSjCdhR15XycBt4TMRx7VO0=";
+        };
+      });
+    };
+  };
+  python3Packages = python.pkgs;
+in
 python3Packages.buildPythonPackage rec {
   pname = "commitizen";
   version = "4.9.1";
@@ -20,7 +35,7 @@ python3Packages.buildPythonPackage rec {
     owner = "commitizen-tools";
     repo = "commitizen";
     tag = "v${version}";
-    hash = "sha256-vHA+TvKs9TOu/0/FpxLHHbDgshQFhP9Dwe6ZMnUOBKc=";
+    hash = "sha256-4hsKCBJHeRjc519h7KO/X8BJhGuw0N6XmC6u+QEiAnc=";
   };
 
   pythonRelaxDeps = [
@@ -42,6 +57,7 @@ python3Packages.buildPythonPackage rec {
     importlib-metadata
     jinja2
     packaging
+    prompt-toolkit
     pyyaml
     questionary
     termcolor

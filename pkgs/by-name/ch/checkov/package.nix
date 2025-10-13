@@ -37,14 +37,14 @@ with py.pkgs;
 
 python3.pkgs.buildPythonApplication rec {
   pname = "checkov";
-  version = "3.2.471";
+  version = "3.2.479";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "bridgecrewio";
     repo = "checkov";
     tag = version;
-    hash = "sha256-dAUokMpBvd2lAKNQJJqAthBUNoI3S1C7gat4Jda7bZk=";
+    hash = "sha256-FC6Bv01lZHeRuRH6dNv3xoywONV2gHTMkjQT8XUhcro=";
   };
 
   pythonRelaxDeps = [
@@ -199,6 +199,7 @@ python3.pkgs.buildPythonApplication rec {
       Prevent cloud misconfigurations during build-time for Terraform, Cloudformation,
       Kubernetes, Serverless framework and other infrastructure-as-code-languages.
     '';
+    mainProgram = "checkov";
     license = lib.licenses.asl20;
     maintainers = with lib.maintainers; [
       anhdle14
