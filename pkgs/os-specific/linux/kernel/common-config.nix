@@ -550,7 +550,7 @@ let
         DRM_AMD_ISP = whenAtLeast "6.11" yes;
 
         # Enable new firmware (and by extension NVK) for compatible hardware on Nouveau
-        DRM_NOUVEAU_GSP_DEFAULT = whenAtLeast "6.8" yes;
+        DRM_NOUVEAU_GSP_DEFAULT = whenBetween "6.8" "6.18" yes;
 
         # Enable Nouveau shared virtual memory (used by OpenCL)
         DEVICE_PRIVATE = whenHasDevicePrivate yes;
@@ -568,6 +568,11 @@ let
         # Intel GVT-g graphics virtualization supports 64-bit only
         DRM_I915_GVT = yes;
         DRM_I915_GVT_KVMGT = module;
+        # Enable Hyper-V guest stuff
+        HYPERV = lib.mkMerge [
+          (whenOlder "6.18" module)
+          (whenAtLeast "6.18" yes)
+        ];
         # Enable Hyper-V Synthetic DRM Driver
         DRM_HYPERV = whenAtLeast "5.14" module;
         # And disable the legacy framebuffer driver when we have the new one
@@ -683,8 +688,8 @@ let
       EXT2_FS_POSIX_ACL = yes;
       EXT2_FS_SECURITY = yes;
 
-      EXT3_FS_POSIX_ACL = yes;
-      EXT3_FS_SECURITY = yes;
+      EXT3_FS_POSIX_ACL = option yes;
+      EXT3_FS_SECURITY = option yes;
 
       EXT4_FS_POSIX_ACL = yes;
       EXT4_FS_SECURITY = yes;
@@ -709,8 +714,8 @@ let
 
       BTRFS_FS_POSIX_ACL = yes;
 
-      BCACHEFS_QUOTA = whenBetween "6.7" "6.18" (option yes);
-      BCACHEFS_POSIX_ACL = whenBetween "6.7" "6.18" (option yes);
+      # Provided by external module
+      BCACHEFS_FS = whenBetween "6.7" "6.18" no;
 
       UBIFS_FS_ADVANCED_COMPR = option yes;
 
@@ -983,6 +988,11 @@ let
 
       # Enable device detection on virtio-mmio hypervisors
       VIRTIO_MMIO_CMDLINE_DEVICES = yes;
+
+      # Enable CDEV and NOIOMMU support for VFIO, which is useful for
+      # passthrough.
+      VFIO_DEVICE_CDEV = yes;
+      VFIO_NOIOMMU = yes;
     };
 
     media = {
@@ -1020,7 +1030,7 @@ let
       ZRAM_DEF_COMP_ZSTD = whenAtLeast "5.11" yes;
       ZSWAP = option yes;
       ZSWAP_COMPRESSOR_DEFAULT_ZSTD = whenAtLeast "5.7" (lib.mkOptionDefault yes);
-      ZPOOL = yes;
+      ZPOOL = whenOlder "6.18" yes;
       ZSMALLOC = option yes;
     };
 
@@ -1085,6 +1095,8 @@ let
         HID_BATTERY_STRENGTH = yes;
         # enabled by default in x86_64 but not arm64, so we do that here
         HIDRAW = yes;
+        # 6.18-rc1 fails to link otherwise, at least on aarch64
+        HID_HAPTIC = whenAtLeast "6.18" yes;
 
         # Enable loading HID fixups as eBPF from userspace
         HID_BPF = whenAtLeast "6.3" (whenPlatformHasEBPFJit yes);
