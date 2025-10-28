@@ -86,6 +86,7 @@ let
           sourceProvenance = with lib.sourceTypes; [ binaryBytecode ];
           license = lib.licenses.bsd3;
           platforms = lib.platforms.unix;
+          maintainers = with lib.maintainers; [ sarahec ];
         };
       };
 
@@ -119,6 +120,7 @@ let
             homepage = "https://www.antlr.org/";
             license = lib.licenses.bsd3;
             platforms = lib.platforms.unix;
+            maintainers = with lib.maintainers; [ sarahec ];
           };
         };
       };
@@ -205,17 +207,6 @@ in
       extraPatches = [
         ./utf8cpp.patch
         ./4.9.runtime.cpp.cmake.patch
-      ];
-    }).antlr;
-
-  antlr4_8 =
-    (mkAntlr {
-      version = "4.8";
-      sourceSha256 = "1qal3add26qxskm85nk7r758arladn5rcyjinmhlhznmpbbv9j8m";
-      jarSha256 = "0nms976cnqyr1ndng3haxkmknpdq6xli4cpf4x4al0yr21l9v93k";
-      extraCppBuildInputs = lib.optional stdenv.hostPlatform.isLinux libuuid;
-      extraCppCmakeFlags = [
-        (lib.cmakeBool "ANTLR4_INSTALL" true)
       ];
     }).antlr;
 }

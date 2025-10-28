@@ -22,7 +22,6 @@ let
     filterAttrs
     optionalString
     flip
-    pathIsDirectory
     head
     pipe
     isDerivation
@@ -305,9 +304,10 @@ rec {
         arg:
         let
           loc = unsafeGetAttrPos arg fargs;
+          loc' = if loc != null then loc.file + ":" + toString loc.line else "<unknown location>";
         in
         "Function called without required argument \"${arg}\" at "
-        + "${loc.file}:${toString loc.line}${prettySuggestions (getSuggestions arg)}";
+        + "${loc'}${prettySuggestions (getSuggestions arg)}";
 
       # Only show the error for the first missing argument
       error = errorForArg (head (attrNames missingArgs));
