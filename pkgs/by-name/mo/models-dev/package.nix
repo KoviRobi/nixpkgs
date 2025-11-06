@@ -8,12 +8,12 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "models-dev";
-  version = "0-unstable-2025-10-25";
+  version = "0-unstable-2025-11-03";
   src = fetchFromGitHub {
     owner = "sst";
     repo = "models.dev";
-    rev = "6aaec4681f415cd7c87519b4acd61720525cdda1";
-    hash = "sha256-77PoCq072udYDsplW1ENQbw/8lQqXrEiPFh2e/oAqVw=";
+    rev = "0e56ea3ccab064118f42687772368bc66f03f85e";
+    hash = "sha256-D7W0HSiHk5LpZ+y1pZCrEsfYEQPVD9qrrbu+3MhjEYo=";
   };
 
   node_modules = stdenvNoCC.mkDerivation {

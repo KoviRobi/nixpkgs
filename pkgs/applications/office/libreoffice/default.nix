@@ -156,6 +156,7 @@
   lp_solve,
   xmlsec,
   libcmis,
+  frozen-containers,
 }:
 
 assert builtins.elem variant [
@@ -491,6 +492,7 @@ stdenv.mkDerivation (finalAttrs: {
       which
       xmlsec
       zlib
+      frozen-containers
     ]
     ++ optionals kdeIntegration [
       qt6.qtbase
@@ -583,10 +585,10 @@ stdenv.mkDerivation (finalAttrs: {
     "--with-system-orcus"
     "--with-system-postgresql"
     "--with-system-xmlsec"
+    "--with-system-frozen"
 
     # TODO: package these as system libraries
     "--without-system-altlinuxhyph"
-    "--without-system-frozen"
     "--without-system-libeot"
     "--without-system-libfreehand"
     "--without-system-libmspub"
@@ -615,9 +617,6 @@ stdenv.mkDerivation (finalAttrs: {
     # cannot find headers, no idea why
     "--without-system-boost"
 
-    "--with-system-rhino"
-    "--with-rhino-jar=${rhino}/share/java/js.jar"
-
     "--without-system-java-websocket"
   ]
   ++ optionals kdeIntegration [
@@ -625,6 +624,9 @@ stdenv.mkDerivation (finalAttrs: {
     "--enable-qt6"
   ]
   ++ optionals withJava [
+    "--with-system-rhino"
+    "--with-rhino-jar=${rhino}/share/java/js.jar"
+
     "--with-system-beanshell"
     "--with-ant-home=${ant.home}"
     "--with-beanshell-jar=${bsh}"
