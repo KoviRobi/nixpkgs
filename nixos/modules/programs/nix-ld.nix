@@ -38,7 +38,7 @@ in
 
   imports =
     let
-      system = pkgs.system or ''''${pkgs.system}'';
+      system = pkgs.stdenv.hostPackages.system or ''''${pkgs.stdenv.hostPackages.system}'';
     in
     [
       (mkRenamedOptionModule
