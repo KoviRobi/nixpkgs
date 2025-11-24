@@ -265,7 +265,8 @@ in
         ++ (with pkgs.pantheon; [
           elementary-files
           elementary-settings-daemon
-          xdg-desktop-portal-pantheon
+          # https://github.com/elementary/portals/issues/157
+          # xdg-desktop-portal-pantheon
         ])
       ) config.environment.pantheon.excludePackages;
 
@@ -307,11 +308,11 @@ in
 
     (mkIf serviceCfg.apps.enable {
       programs.evince.enable = mkDefault (notExcluded pkgs.evince);
-      programs.file-roller.enable = mkDefault (notExcluded pkgs.file-roller);
 
       environment.systemPackages = utils.removePackagesByName (
         [
           pkgs.gnome-font-viewer
+          pkgs.file-roller
         ]
         ++ (
           with pkgs.pantheon;
