@@ -168,6 +168,7 @@ mapAliases {
   inherit (pkgs) eas-cli; # added 2025-01-08
   expo-cli = throw "expo-cli was removed because it was deprecated upstream. Use `npx expo` or eas-cli instead."; # added 2024-12-02
   fast-cli = throw "'fast-cli' has been removed because it was unmaintainable in nixpkgs"; # Added 2025-11-17
+  inherit (pkgs) fauna-shell; # Added 2025-11-27
   inherit (pkgs) firebase-tools; # added 2023-08-18
   inherit (pkgs) fixjson; # added 2024-06-26
   fkill-cli = throw "'fkill-cli' has been removed because it was unmaintainable in nixpkgs"; # Added 2025-11-17
@@ -212,6 +213,7 @@ mapAliases {
   inherit (pkgs) jake; # added 2023-08-19
   inherit (pkgs) javascript-typescript-langserver; # added 2023-08-19
   inherit (pkgs) js-beautify; # Added 2025-11-06
+  inherit (pkgs) jsdoc; # Added 2025-11-29
   inherit (pkgs) jshint; # Added 2025-11-06
   json = throw "'json' has been removed because it was unmaintained upstream"; # Added 2025-11-14
   inherit (pkgs) json-diff; # Added 2025-11-07
@@ -252,6 +254,7 @@ mapAliases {
   near-cli = throw "'near-cli' has been removed as upstream has deprecated it and archived the source code repo"; # Added 2025-11-10
   neovim = pkgs.neovim-node-client; # added 2024-11-13
   nijs = throw "'nijs' has been removed as it was unmaintained upstream"; # Added 2025-11-14
+  inherit (pkgs) node-gyp-build; # Added 2025-11-27
   node-inspector = throw "node-inspector was removed because it was broken"; # added 2023-08-21
   inherit (pkgs) node-gyp; # added 2024-08-13
   inherit (pkgs) node-pre-gyp; # added 2024-08-05
@@ -301,6 +304,7 @@ mapAliases {
   inherit (pkgs) serve; # added 2025-08-27
   inherit (pkgs) serverless; # Added 2023-11-29
   shout = throw "shout was removed because it was deprecated upstream in favor of thelounge."; # Added 2024-10-19
+  inherit (pkgs) sloc; # Added 2025-11-28
   smartdc = throw "'smartdc' was removed because it was unmaintained upstream"; # Added 2025-11-14
   inherit (pkgs) snyk; # Added 2023-08-30
   "socket.io" = throw "socket.io was removed because it provides no executable"; # added 2025-03-23
